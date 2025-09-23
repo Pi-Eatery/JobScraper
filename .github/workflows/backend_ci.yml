@@ -38,6 +38,8 @@ jobs:
       - name: Test with Pytest
         working-directory: ./backend
         run: poetry run pytest
+        env:
+          PYTHONPATH: ./
       - name: Docker Scout Scan
         run: |
           docker pull $(docker build -q ./backend)
