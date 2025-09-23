@@ -1,7 +1,8 @@
 import logging
-from fastapi import FastAPI, Request, Response, HTTPException, status
+from fastapi import FastAPI, Request, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from backend.src.middleware.auth import get_current_user
 import time
 
 from .api import auth, applications
@@ -19,7 +20,9 @@ Base.metadata.create_all(bind=engine)
 # Configure CORS
 origins = [
     "http://localhost",
-    "http://localhost:3000", # React frontend default port
+    "http://localhost:3000",  # React frontend default port
+    "http://localhost:8000", # FastAPI backend default port
+    "http://127.0.0.1:8000",
 ]
 
 app.add_middleware(
@@ -32,7 +35,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-app.include_router(applications.router, prefix="/api", tags=["applications"])
+app.include_router(applications.router, prefix="/api", tags=["applications"], dependencies=[Depends(get_current_user)])
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):

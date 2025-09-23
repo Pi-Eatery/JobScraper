@@ -91,7 +91,7 @@
  - [x] T033 Create React components for adding, editing, and deleting job applications in `frontend/src/components/applications/ApplicationForm.js`
  - [x] T034 Implement data fetching and state management for job applications in `frontend/src/services/api.js`
  - [x] T035 Implement basic routing for login, register, and application list pages in `frontend/src/App.js`
-- [ ] T036 Git: Commit "Implement core backend and frontend features" (`git add . && git commit -m "Implement core backend and frontend features" && git push origin main`)
+- [x] T036 Git: Commit "Implement core backend and frontend features" (`git add . && git commit -m "Implement core backend and frontend features" && git push origin main`)
 
 ## Phase 3.4: Integration
 - [ ] T037 Configure backend to connect to SQLite database
