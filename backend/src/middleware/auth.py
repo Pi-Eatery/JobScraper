@@ -2,6 +2,7 @@ from fastapi import Header, HTTPException, status
 from jose import JWTError, jwt
 from backend.src.services.auth_service import ALGORITHM, SECRET_KEY
 
+
 def get_current_user(token: str = Header(...)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

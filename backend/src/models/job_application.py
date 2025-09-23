@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Date, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
 
+
 class JobApplication(Base):
     __tablename__ = "job_applications"
 
@@ -14,6 +15,8 @@ class JobApplication(Base):
     job_board = Column(String)
     url = Column(String)
     notes = Column(Text)
-    keywords = Column(String) # Storing as String for now, could be improved with array type or separate table
+    keywords = Column(
+        String
+    )  # Storing as String for now, could be improved with array type or separate table
 
     user = relationship("User", back_populates="applications")

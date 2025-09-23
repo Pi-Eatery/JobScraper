@@ -1,15 +1,18 @@
 from sqlalchemy.orm import Session
 from ..models.user import User
-from passlib.context import CryptContext # For password hashing, assuming installation
+from passlib.context import CryptContext  # For password hashing, assuming installation
 
 # For password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password):
     return pwd_context.hash(password)
+
 
 class AuthService:
     def register_user(self, db: Session, username: str, email: str, password: str):
