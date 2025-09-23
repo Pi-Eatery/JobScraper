@@ -39,3 +39,7 @@ Thumbs.db
 # Node PnP
 .pnp
 .pnp.js
+
+# Agent-specific files
+.roo/
+.specify/
