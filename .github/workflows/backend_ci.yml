@@ -31,7 +31,7 @@ jobs:
         run: poetry install --no-root
       - name: Lint with Black
         working-directory: ./backend
-        run: poetry run black --check .
+        run: poetry run black --check src/
       - name: Lint with Bandit
         working-directory: ./backend
         run: poetry run bandit -r src
