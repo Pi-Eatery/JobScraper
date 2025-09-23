@@ -90,9 +90,7 @@ describe('Login Component', () => {
         fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'testpass' } });
         fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-        await waitFor(() => {
-            expect(localStorage.getItem('access_token')).toBe('fake-token');
-            expect(mockedUsedNavigate).toHaveBeenCalledWith('/dashboard');
-        });
+        await waitFor(() => expect(localStorage.getItem('access_token')).toBe('fake-token'));
+        await waitFor(() => expect(mockedUsedNavigate).toHaveBeenCalledWith('/dashboard'));
     });
 });
