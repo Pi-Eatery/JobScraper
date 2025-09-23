@@ -23,6 +23,7 @@ packages = [{include = "src", from = "backend"}]
 python = "^3.11"
 fastapi = "^0.111.0"
 uvicorn = "^0.30.1"
+gunicorn = "^22.0.0" # Added gunicorn as a direct dependency
 sqlalchemy = "^2.0.30"
 passlib = "^1.7.4"
 python-multipart = "^0.0.9"
