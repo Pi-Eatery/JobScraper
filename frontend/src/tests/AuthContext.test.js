@@ -103,7 +103,7 @@ describe('AuthContext', () => {
         jest.spyOn(global, 'fetch').mockImplementation(() =>
             Promise.resolve({
                 ok: false,
-                json: () => Promise.resolve({ message: 'Login failed' }),
+                json: () => Promise.resolve({ message: 'Login failed from mock' }),
             })
         );
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
