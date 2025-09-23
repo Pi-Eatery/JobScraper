@@ -48,4 +48,7 @@ jobs:
       #     docker scout cves backend-image
       - name: Run pip-audit
         working-directory: ./backend
-        run: pip install pip-audit && poetry export -f requirements.txt --output requirements.txt --without-hashes && pip-audit -r requirements.txt
+        run: |
+          pip install pip-audit poetry-plugin-export
+          poetry export -f requirements.txt --output requirements.txt --without-hashes --dev
+          pip-audit -r requirements.txt
