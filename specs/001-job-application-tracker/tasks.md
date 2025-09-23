@@ -106,14 +106,14 @@
 - [ ] T046 Git: Commit "Integrate services, Docker, and initial CI workflows" (`git add . && git commit -m "Integrate services, Docker, and initial CI workflows" && git push origin main`)
 
 ## Phase 3.5: Polish
-- [ ] T047 [P] Implement unit tests for backend models and services in `backend/tests/unit/`
-- [ ] T048 [P] Implement unit tests for frontend components and utilities in `frontend/src/tests/`
-- [ ] T049 Add performance testing for key API endpoints
-- [ ] T050 Update `quickstart.md` with deployment instructions
-- [ ] T051 Ensure accessibility standards are met for frontend components
-- [ ] T052 [P] Integrate `Docker Scout` for container image scanning in CI/CD
-- [ ] T053 [P] Implement `pip-audit` for dependency vulnerability checks in CI/CD
-- [ ] T054 Refine GitHub Actions workflow for CD (deploy to Linux server via Cloudflare Tunnels) in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`
+- [x] T047 [P] Implement unit tests for backend models and services in `backend/tests/unit/`
+- [x] T048 [P] Implement unit tests for frontend components and utilities in `frontend/src/tests/`
+- [x] T049 Add performance testing for key API endpoints
+- [x] T050 Update `quickstart.md` with deployment instructions
+- [x] T051 Ensure accessibility standards are met for frontend components
+- [x] T052 [P] Integrate `Docker Scout` for container image scanning in CI/CD
+- [x] T053 [P] Implement `pip-audit` for dependency vulnerability checks in CI/CD
+- [x] T054 Refine GitHub Actions workflow for CD (deploy to Linux server via Cloudflare Tunnels) in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`
 - [ ] T055 Git: Commit "Final polish, tests, and CI/CD refinements" (`git add . && git commit -m "Final polish, tests, and CI/CD refinements" && git push origin main`)
 
 ## Dependencies
