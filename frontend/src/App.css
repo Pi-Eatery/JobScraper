@@ -15,13 +15,18 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh; /* Reduced height for header */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px 0; /* Add some padding */
+}
+
+.App-main {
+  padding: 20px; /* Add padding to main content */
 }
 
 .App-link {
@@ -35,4 +40,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Accessibility (A11y) styles */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
 }

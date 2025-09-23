@@ -11,6 +11,7 @@ services:
       - ./backend/src:/app/src
     environment:
       - DATABASE_URL=sqlite:///./sql_app.db
+      - SECRET_KEY=super-secret-key
     depends_on:
       - prometheus-node-exporter
 
@@ -20,6 +21,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
     depends_on:
       - backend
 

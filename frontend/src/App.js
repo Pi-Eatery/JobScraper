@@ -16,13 +16,14 @@ function PrivateRoute({ children }) {
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <AuthProvider>
                 <div className="App">
+                    <a href="#main-content" className="skip-link">Skip to main content</a>
                     <header className="App-header">
-                        <h1>Job Application Tracker</h1>
+                        <h1 aria-label="Job Application Tracker Heading">Job Application Tracker</h1>
                     </header>
-                    <main>
+                    <main id="main-content" aria-label="Main content area">
                         <Routes>
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />

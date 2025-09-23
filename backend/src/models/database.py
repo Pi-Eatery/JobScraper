@@ -7,9 +7,7 @@ DATABASE_URL = "sqlite:///./sql_app.db"
 
 # Create the SQLAlchemy engine
 # The connect_args is specific to SQLite for handling concurrent requests
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 # Create a SessionLocal class
 # Each instance of SessionLocal will be a database session
@@ -20,6 +18,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Create the Base class for declarative models
 # All your SQLAlchemy models will inherit from this Base
 Base = declarative_base()
+
 
 # Dependency to get a database session
 def get_db():

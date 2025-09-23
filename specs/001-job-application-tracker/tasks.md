@@ -94,27 +94,27 @@
 - [x] T036 Git: Commit "Implement core backend and frontend features" (`git add . && git commit -m "Implement core backend and frontend features" && git push origin main`)
 
 ## Phase 3.4: Integration
-- [ ] T037 Configure backend to connect to SQLite database
-- [ ] T038 Implement authentication middleware for protected backend routes in `backend/src/middleware/auth.py`
-- [ ] T039 Configure CORS for frontend/backend communication
-- [ ] T040 Set up Dockerfile for backend in `backend/Dockerfile`
-- [ ] T041 Set up Dockerfile for frontend in `frontend/Dockerfile`
-- [ ] T042 Create `docker-compose.yml` to run backend and frontend containers
-- [ ] T043 Integrate Prometheus Node Exporter for Docker container metrics
-- [ ] T044 Create `.github/workflows/backend_ci.yml` for backend CI (lint, test, build)
-- [ ] T045 Create `.github/workflows/frontend_ci.yml` for frontend CI (lint, test, build)
-- [ ] T046 Git: Commit "Integrate services, Docker, and initial CI workflows" (`git add . && git commit -m "Integrate services, Docker, and initial CI workflows" && git push origin main`)
+- [x] T037 Configure backend to connect to SQLite database
+- [x] T038 Implement authentication middleware for protected backend routes in `backend/src/middleware/auth.py`
+- [x] T039 Configure CORS for frontend/backend communication
+- [x] T040 Set up Dockerfile for backend in `backend/Dockerfile`
+- [x] T041 Set up Dockerfile for frontend in `frontend/Dockerfile`
+- [x] T042 Create `docker-compose.yml` to run backend and frontend containers
+- [x] T043 Integrate Prometheus Node Exporter for Docker container metrics
+- [x] T044 Create `.github/workflows/backend_ci.yml` for backend CI (lint, test, build)
+- [x] T045 Create `.github/workflows/frontend_ci.yml` for frontend CI (lint, test, build)
+- [x] T046 Git: Commit "Integrate services, Docker, and initial CI workflows" (`git add . && git commit -m "Integrate services, Docker, and initial CI workflows" && git push origin main`)
 
 ## Phase 3.5: Polish
-- [ ] T047 [P] Implement unit tests for backend models and services in `backend/tests/unit/`
-- [ ] T048 [P] Implement unit tests for frontend components and utilities in `frontend/src/tests/`
-- [ ] T049 Add performance testing for key API endpoints
-- [ ] T050 Update `quickstart.md` with deployment instructions
-- [ ] T051 Ensure accessibility standards are met for frontend components
-- [ ] T052 [P] Integrate `Docker Scout` for container image scanning in CI/CD
-- [ ] T053 [P] Implement `pip-audit` for dependency vulnerability checks in CI/CD
-- [ ] T054 Refine GitHub Actions workflow for CD (deploy to Linux server via Cloudflare Tunnels) in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`
-- [ ] T055 Git: Commit "Final polish, tests, and CI/CD refinements" (`git add . && git commit -m "Final polish, tests, and CI/CD refinements" && git push origin main`)
+- [x] T047 [P] Implement unit tests for backend models and services in `backend/tests/unit/`
+- [x] T048 [P] Implement unit tests for frontend components and utilities in `frontend/src/tests/`
+- [x] T049 Add performance testing for key API endpoints
+- [x] T050 Update `quickstart.md` with deployment instructions
+- [x] T051 Ensure accessibility standards are met for frontend components
+- [x] T052 [P] Integrate `Docker Scout` for container image scanning in CI/CD
+- [x] T053 [P] Implement `pip-audit` for dependency vulnerability checks in CI/CD
+- [x] T054 Refine GitHub Actions workflow for CD (deploy to Linux server via Cloudflare Tunnels) in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`
+- [x] T055 Git: Commit "Final polish, tests, and CI/CD refinements" (`git add . && git commit -m "Final polish, tests, and CI/CD refinements" && git push origin main`)
 
 ## Dependencies
 - Setup tasks (T001-T008) before any other tasks.

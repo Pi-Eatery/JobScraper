@@ -40,3 +40,70 @@ These scenarios outline key user interaction flows and will serve as high-level 
 4.  **Filter the list by status and verify results**:
     *   **Action**: Send a `GET` request to `/api/applications` with `Authorization: Bearer <token>` header and a `status` query parameter (e.g., `?status=Interviewing`).
     *   **Expected Outcome**: Receive a `200 OK` response where all returned job applications have the specified status.
+
+## Deployment Instructions
+
+This section outlines the steps to deploy the Job Application Tracker application.
+
+### Prerequisites
+
+*   Docker and Docker Compose installed on your deployment server.
+*   A Cloudflare account with a configured domain.
+*   Cloudflare Tunnel (`cloudflared`) installed and authenticated on your deployment server.
+*   Git installed.
+
+### Steps
+
+1.  **Clone the Repository**:
+   ```bash
+   git clone https://github.com/your-username/JobScraper.git
+   cd JobScraper
+   ```
+
+2.  **Configure Environment Variables**:
+   *   Create a `.env` file in the root directory.
+   *   Add necessary environment variables for your backend (e.g., database connection string, secret key for authentication).
+       ```
+       SECRET_KEY="your_super_secret_key"
+       DATABASE_URL="sqlite:///./sql_app.db"
+       # Add any other backend specific environment variables
+       ```
+
+3.  **Build and Run Docker Containers**:
+   *   Navigate to the root of the cloned repository.
+   *   Build and start the Docker containers for both backend and frontend:
+       ```bash
+       docker-compose up --build -d
+       ```
+   *   Verify that both containers are running:
+       ```bash
+       docker-compose ps
+       ```
+
+4.  **Configure Cloudflare Tunnel**:
+   *   Ensure `cloudflared` is authenticated to your Cloudflare account.
+   *   Create a `tunnel.yml` configuration file for your Cloudflare Tunnel. This file will define how Cloudflare routes traffic to your Dockerized application.
+       ```yaml
+       # .cloudflared/tunnel.yml
+       tunnel: your-tunnel-id
+       credentials-file: /root/.cloudflared/your-tunnel-id.json
+       metrics: 0.0.0.0:2006
+       ingress:
+         - hostname: your-frontend-domain.com
+           service: http://localhost:3000 # Frontend service running on port 3000
+         - hostname: your-api-domain.com
+           service: http://localhost:8000 # Backend service running on port 8000
+         - service: http_status:404
+       ```
+   *   Start the Cloudflare Tunnel:
+       ```bash
+       cloudflared tunnel run <your-tunnel-name>
+       ```
+   *   Ensure that DNS records for `your-frontend-domain.com` and `your-api-domain.com` are configured in Cloudflare to proxy through the tunnel.
+
+5.  **Access the Application**:
+   *   Once the Docker containers are running and the Cloudflare Tunnel is active, you can access your frontend application at `https://your-frontend-domain.com` and your backend API at `https://your-api-domain.com`.
+
+6.  **Continuous Deployment (Optional)**:
+   *   For continuous deployment, set up GitHub Actions (as defined in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`) to automatically build and deploy new Docker images to a container registry, and then trigger an update on your deployment server.
+   *   This typically involves using SSH to connect to your server, pulling the new Docker images, and restarting the `docker-compose` services.

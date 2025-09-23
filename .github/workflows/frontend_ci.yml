@@ -21,9 +21,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install dependencies
+      - name: Clean npm cache and install dependencies
         working-directory: ./frontend
-        run: npm install
+        run: |
+          npm cache clean --force
+          npm install
       - name: Run ESLint
         working-directory: ./frontend
         run: npm run lint

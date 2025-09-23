@@ -23,15 +23,32 @@ jobs:
           python-version: '3.11'
       - name: Install Poetry
         run: pip install poetry
+      - name: Generate poetry.lock
+        working-directory: ./backend
+        run: poetry lock
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install --no-root
       - name: Lint with Black
         working-directory: ./backend
-        run: poetry run black --check .
+        run: poetry run black --check src/
       - name: Lint with Bandit
         working-directory: ./backend
         run: poetry run bandit -r src
       - name: Test with Pytest
         working-directory: ./backend
         run: poetry run pytest
+        env:
+          PYTHONPATH: ./
+      # - name: Build Docker image (for Scout Scan)
+      #   working-directory: ./backend
+      #   run: docker build -t backend-image .
+      # - name: Docker Scout Scan
+      #   run: |
+      #     docker scout cves backend-image
+      - name: Run pip-audit
+        working-directory: ./backend
+        run: |
+          pip install pip-audit poetry-plugin-export
+          poetry export -f requirements.txt --output requirements.txt --without-hashes --dev
+          pip-audit -r requirements.txt
