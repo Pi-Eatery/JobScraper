@@ -1,0 +1,24 @@
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE files
+.idea/
+.vscode/
+
+# Test artifacts
+.pytest_cache/
+coverage.xml
+.coverage
+
+# OS files
+.DS_Store
