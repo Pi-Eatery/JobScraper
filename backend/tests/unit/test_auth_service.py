@@ -23,6 +23,16 @@ def db_session(setup_database):
     session.close()
 
 @pytest.fixture
+def unique_email_generator(request):
+    """Fixture to generate unique emails for each test function."""
+    counter = 0
+    def _generator():
+        nonlocal counter
+        counter += 1
+        return f"user_{request.node.name}_{counter}@example.com"
+    return _generator
+
+@pytest.fixture
 def auth_service():
     return AuthService()
 
@@ -40,9 +50,9 @@ def test_verify_password():
     assert verify_password(password, hashed_password)
     assert not verify_password("wrongpassword", hashed_password)
 
-def test_register_user(db_session, auth_service):
+def test_register_user(db_session, auth_service, unique_email_generator):
     username = "newuser"
-    email = "newuser@example.com"
+    email = unique_email_generator()
     password = "newpassword"
 
     user = auth_service.register_user(db_session, username, email, password)
@@ -57,9 +67,9 @@ def test_register_user(db_session, auth_service):
     assert db_user is not None
     assert db_user.email == email
 
-def test_authenticate_user_success(db_session, auth_service):
+def test_authenticate_user_success(db_session, auth_service, unique_email_generator):
     username = "authuser"
-    email = "authuser@example.com"
+    email = unique_email_generator()
     password = "authpassword"
     auth_service.register_user(db_session, username, email, password)
 
@@ -67,9 +77,9 @@ def test_authenticate_user_success(db_session, auth_service):
     assert authenticated_user is not None
     assert authenticated_user.username == username
 
-def test_authenticate_user_wrong_password(db_session, auth_service):
+def test_authenticate_user_wrong_password(db_session, auth_service, unique_email_generator):
     username = "wrongpassuser"
-    email = "wrongpass@example.com"
+    email = unique_email_generator()
     password = "correctpassword"
     auth_service.register_user(db_session, username, email, password)
 
@@ -80,10 +90,10 @@ def test_authenticate_user_not_found(db_session, auth_service):
     authenticated_user = auth_service.authenticate_user(db_session, "nonexistentuser", "anypassword")
     assert authenticated_user is None
 
-def test_register_duplicate_username(db_session, auth_service):
+def test_register_duplicate_username(db_session, auth_service, unique_email_generator):
     username = "duplicate"
-    email1 = "duplicate1@example.com"
-    email2 = "duplicate2@example.com"
+    email1 = unique_email_generator()
+    email2 = unique_email_generator()
     password = "password"
 
     auth_service.register_user(db_session, username, email1, password)
@@ -91,10 +101,10 @@ def test_register_duplicate_username(db_session, auth_service):
     with pytest.raises(Exception): # Assuming integrity error from SQLAlchemy
         auth_service.register_user(db_session, username, email2, password)
 
-def test_register_duplicate_email(db_session, auth_service):
+def test_register_duplicate_email(db_session, auth_service, unique_email_generator):
     username1 = "duplicate_email1"
     username2 = "duplicate_email2"
-    email = "duplicateemail@example.com"
+    email = unique_email_generator()
     password = "password"
 
     auth_service.register_user(db_session, username1, email, password)

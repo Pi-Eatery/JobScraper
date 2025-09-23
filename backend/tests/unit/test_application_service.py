@@ -19,10 +19,11 @@ def setup_database():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture(scope="function")
-def db_session(setup_database):
+def db_session(setup_database, request):
     session = TestingSessionLocal()
     # Ensure a user exists for foreign key constraint
-    user = User(username="testuser_app_service", email="test_app_service@example.com", password_hash="hashedpassword")
+    unique_email = f"test_app_service_{request.node.name}@example.com"
+    user = User(username="testuser_app_service", email=unique_email, password_hash="hashedpassword")
     session.add(user)
     session.commit()
     session.refresh(user)

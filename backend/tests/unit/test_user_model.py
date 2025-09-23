@@ -21,8 +21,21 @@ def db_session(setup_database):
     yield session
     session.close()
 
-def test_create_user(db_session):
-    new_user = User(username="testuser", email="test@example.com", password_hash="hashedpassword")
+@pytest.fixture
+def unique_user_generator(request):
+    """Fixture to generate unique usernames and emails for each test function."""
+    counter = 0
+    def _generator():
+        nonlocal counter
+        counter += 1
+        username = f"testuser_{request.node.name}_{counter}"
+        email = f"test_{request.node.name}_{counter}@example.com"
+        return username, email
+    return _generator
+
+def test_create_user(db_session, unique_user_generator):
+    username, email = unique_user_generator()
+    new_user = User(username=username, email=email, password_hash="hashedpassword")
     db_session.add(new_user)
     db_session.commit()
     db_session.refresh(new_user)
@@ -32,8 +45,9 @@ def test_create_user(db_session):
     assert new_user.email == "test@example.com"
     assert new_user.password_hash == "hashedpassword"
 
-def test_get_user_by_username(db_session):
-    new_user = User(username="findme", email="findme@example.com", password_hash="hash")
+def test_get_user_by_username(db_session, unique_user_generator):
+    username, email = unique_user_generator()
+    new_user = User(username=username, email=email, password_hash="hash")
     db_session.add(new_user)
     db_session.commit()
     db_session.refresh(new_user)
@@ -42,8 +56,9 @@ def test_get_user_by_username(db_session):
     assert found_user is not None
     assert found_user.username == "findme"
 
-def test_get_user_by_email(db_session):
-    new_user = User(username="emailuser", email="email@example.com", password_hash="hash")
+def test_get_user_by_email(db_session, unique_user_generator):
+    username, email = unique_user_generator()
+    new_user = User(username=username, email=email, password_hash="hash")
     db_session.add(new_user)
     db_session.commit()
     db_session.refresh(new_user)
@@ -52,9 +67,11 @@ def test_get_user_by_email(db_session):
     assert found_user is not None
     assert found_user.email == "email@example.com"
 
-def test_unique_username(db_session):
-    user1 = User(username="unique", email="unique1@example.com", password_hash="hash")
-    user2 = User(username="unique", email="unique2@example.com", password_hash="hash")
+def test_unique_username(db_session, unique_user_generator):
+    username, email1 = unique_user_generator()
+    _, email2 = unique_user_generator() # Generate another unique email for the second user
+    user1 = User(username=username, email=email1, password_hash="hash")
+    user2 = User(username=username, email=email2, password_hash="hash")
     db_session.add(user1)
     db_session.commit()
 
@@ -62,9 +79,11 @@ def test_unique_username(db_session):
         db_session.add(user2)
         db_session.commit()
 
-def test_unique_email(db_session):
-    user1 = User(username="user1", email="emailunique@example.com", password_hash="hash")
-    user2 = User(username="user2", email="emailunique@example.com", password_hash="hash")
+def test_unique_email(db_session, unique_user_generator):
+    username1, email = unique_user_generator()
+    username2, _ = unique_user_generator() # Generate another unique username for the second user
+    user1 = User(username=username1, email=email, password_hash="hash")
+    user2 = User(username=username2, email=email, password_hash="hash")
     db_session.add(user1)
     db_session.commit()
 
