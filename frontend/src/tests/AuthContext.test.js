@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 
@@ -69,16 +69,14 @@ describe('AuthContext', () => {
             </AuthProvider>
         );
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /login/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
             expect(localStorage.getItem('access_token')).toBe('new-fake-token');
-            expect(screen.getByTestId('user')).toHaveTextContent('testuser');
-            expect(screen.getByTestId('token')).toHaveTextContent('new-fake-token');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Authenticated');
         });
+        expect(screen.getByTestId('user')).toHaveTextContent('testuser');
+        expect(screen.getByTestId('token')).toHaveTextContent('new-fake-token');
+        expect(screen.getByTestId('authenticated')).toHaveTextContent('Authenticated');
     });
 
     it('logs out a user and clears token', async () => {
@@ -92,16 +90,14 @@ describe('AuthContext', () => {
         // Initially, user should be authenticated from localStorage token
         expect(screen.getByTestId('authenticated')).toHaveTextContent('Authenticated');
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /logout/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /logout/i }));
 
         await waitFor(() => {
             expect(localStorage.getItem('access_token')).toBeNull();
-            expect(screen.getByTestId('user')).toHaveTextContent('No User');
-            expect(screen.getByTestId('token')).toHaveTextContent('No Token');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
         });
+        expect(screen.getByTestId('user')).toHaveTextContent('No User');
+        expect(screen.getByTestId('token')).toHaveTextContent('No Token');
+        expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
     });
 
     it('handles login failure', async () => {
@@ -120,17 +116,15 @@ describe('AuthContext', () => {
             </AuthProvider>
         );
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /login/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
             expect(localStorage.getItem('access_token')).toBeNull();
-            expect(screen.getByTestId('user')).toHaveTextContent('No User');
-            expect(screen.getByTestId('token')).toHaveTextContent('No Token');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-            expect(consoleSpy).toHaveBeenCalledWith("Login error:", expect.any(Error));
         });
+        expect(screen.getByTestId('user')).toHaveTextContent('No User');
+        expect(screen.getByTestId('token')).toHaveTextContent('No Token');
+        expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
+        expect(consoleSpy).toHaveBeenCalledWith("Login error:", expect.any(Error));
         consoleSpy.mockRestore();
     });
 });

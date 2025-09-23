@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install --no-root
+      - name: Update poetry.lock
+        working-directory: ./backend
+        run: poetry lock --no-update
       - name: Lint with Black
         working-directory: ./backend
         run: poetry run black --check .
