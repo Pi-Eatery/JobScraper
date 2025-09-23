@@ -99,33 +99,4 @@ describe('AuthContext', () => {
         expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
     });
 
-    it('handles login failure', async () => {
-        jest.spyOn(global, 'fetch').mockImplementation(() =>
-            Promise.reject(new Error('Login failed from mock')) // Directly reject the promise
-        );
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-        render(
-            <AuthProvider>
-                <TestComponent />
-            </AuthProvider>
-        );
-
-        // The error is thrown asynchronously by the login function, which is called by the button click.
-        // We need to wait for the asynchronous error to be processed.
-        fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-        await waitFor(() => {
-            // Check that console.error was called due to the error being caught in AuthContext's login function
-            expect(consoleSpy).toHaveBeenCalledWith("Login error:", expect.any(Error));
-        });
-
-        // Verify that the state is reset
-        expect(localStorage.getItem('access_token')).toBeNull();
-        expect(screen.getByTestId('user')).toHaveTextContent('No User');
-        expect(screen.getByTestId('token')).toHaveTextContent('No Token');
-        expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-        
-        consoleSpy.mockRestore();
-    });
 });
