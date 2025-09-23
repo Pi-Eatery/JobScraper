@@ -16,7 +16,7 @@ function PrivateRoute({ children }) {
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <AuthProvider>
                 <div className="App">
                     <a href="#main-content" className="skip-link">Skip to main content</a>
