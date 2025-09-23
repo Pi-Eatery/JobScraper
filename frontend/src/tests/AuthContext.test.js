@@ -118,12 +118,12 @@ describe('AuthContext', () => {
         fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
-            expect(localStorage.getItem('access_token')).toBeNull();
+            expect(consoleSpy).toHaveBeenCalledWith("Login error:", expect.any(Error));
         });
+        expect(localStorage.getItem('access_token')).toBeNull();
         expect(screen.getByTestId('user')).toHaveTextContent('No User');
         expect(screen.getByTestId('token')).toHaveTextContent('No Token');
         expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-        expect(consoleSpy).toHaveBeenCalledWith("Login error:", expect.any(Error));
         consoleSpy.mockRestore();
     });
 });
