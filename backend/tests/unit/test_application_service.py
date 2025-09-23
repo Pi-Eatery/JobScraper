@@ -22,8 +22,9 @@ def setup_database():
 def db_session(setup_database, request):
     session = TestingSessionLocal()
     # Ensure a user exists for foreign key constraint
+    unique_username = f"testuser_app_service_{request.node.name}"
     unique_email = f"test_app_service_{request.node.name}@example.com"
-    user = User(username="testuser_app_service", email=unique_email, password_hash="hashedpassword")
+    user = User(username=unique_username, email=unique_email, password_hash="hashedpassword")
     session.add(user)
     session.commit()
     session.refresh(user)
@@ -35,8 +36,10 @@ def application_service():
     return ApplicationService()
 
 @pytest.fixture
-def test_user(db_session):
-    return db_session.query(User).filter(User.username == "testuser_app_service").first()
+def test_user(db_session, request):
+    # Retrieve the user created in db_session fixture. The username is now dynamic.
+    unique_username = f"testuser_app_service_{request.node.name}"
+    return db_session.query(User).filter(User.username == unique_username).first()
 
 def test_create_application(db_session, application_service, test_user):
     new_application = application_service.create_application(
@@ -83,7 +86,7 @@ def test_get_application(db_session, application_service, test_user):
     assert not_found_app is None
 
     # Test getting an application belonging to another user
-    other_user = User(username="otheruser", email="other@example.com", password_hash="hash")
+    other_user = User(username=f"otheruser_{request.node.name}", email=f"other_{request.node.name}@example.com", password_hash="hash")
     db_session.add(other_user)
     db_session.commit()
     db_session.refresh(other_user)

@@ -41,8 +41,8 @@ def test_create_user(db_session, unique_user_generator):
     db_session.refresh(new_user)
 
     assert new_user.id is not None
-    assert new_user.username == "testuser"
-    assert new_user.email == "test@example.com"
+    assert new_user.username == username
+    assert new_user.email == email
     assert new_user.password_hash == "hashedpassword"
 
 def test_get_user_by_username(db_session, unique_user_generator):
@@ -52,9 +52,9 @@ def test_get_user_by_username(db_session, unique_user_generator):
     db_session.commit()
     db_session.refresh(new_user)
 
-    found_user = db_session.query(User).filter(User.username == "findme").first()
+    found_user = db_session.query(User).filter(User.username == username).first()
     assert found_user is not None
-    assert found_user.username == "findme"
+    assert found_user.username == username
 
 def test_get_user_by_email(db_session, unique_user_generator):
     username, email = unique_user_generator()
@@ -63,9 +63,9 @@ def test_get_user_by_email(db_session, unique_user_generator):
     db_session.commit()
     db_session.refresh(new_user)
 
-    found_user = db_session.query(User).filter(User.email == "email@example.com").first()
+    found_user = db_session.query(User).filter(User.email == email).first()
     assert found_user is not None
-    assert found_user.email == "email@example.com"
+    assert found_user.email == email
 
 def test_unique_username(db_session, unique_user_generator):
     username, email1 = unique_user_generator()
