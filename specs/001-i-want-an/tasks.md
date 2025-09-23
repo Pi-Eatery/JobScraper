@@ -73,24 +73,24 @@
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
 ### Backend (Python)
-- [ ] T020 Create `User` model in `backend/src/models/user.py`
-- [ ] T021 Create `JobApplication` model in `backend/src/models/job_application.py`
-- [ ] T022 Implement database connection and session management in `backend/src/database.py`
-- [ ] T023 Implement `User` authentication service (register, login) in `backend/src/services/auth_service.py`
-- [ ] T024 Implement `JobApplication` CRUD service in `backend/src/services/application_service.py`
-- [ ] T025 Implement authentication routes (`/api/auth/register`, `/api/auth/login`) in `backend/src/api/auth.py`
-- [ ] T026 Implement job application routes (`/api/applications`, `/api/applications/{id}`) in `backend/src/api/applications.py`
-- [ ] T027 Implement input validation for all API endpoints in `backend/src/schemas/`
-- [ ] T028 Implement global error handling and structured logging (`Python logging`) in `backend/src/main.py`
-
-### Frontend (React)
-- [ ] T029 Create React components for user registration and login forms in `frontend/src/components/auth/`
-- [ ] T030 Implement user authentication context/provider in `frontend/src/context/AuthContext.js`
-- [ ] T031 Create React component to display job application list in `frontend/src/components/applications/ApplicationList.js`
-- [ ] T032 Implement job application filtering UI in `frontend/src/components/applications/ApplicationFilter.js`
-- [ ] T033 Create React components for adding, editing, and deleting job applications in `frontend/src/components/applications/ApplicationForm.js`
-- [ ] T034 Implement data fetching and state management for job applications in `frontend/src/services/api.js`
-- [ ] T035 Implement basic routing for login, register, and application list pages in `frontend/src/App.js`
+- [x] T020 Create `User` model in `backend/src/models/user.py`
+- [x] T021 Create `JobApplication` model in `backend/src/models/job_application.py`
+- [x] T022 Implement database connection and session management in `backend/src/models/database.py`
+- [x] T023 Implement `User` authentication service (register, login) in `backend/src/services/auth_service.py`
+- [x] T024 Implement `JobApplication` CRUD service in `backend/src/services/application_service.py`
+- [x] T025 Implement authentication routes (`/api/auth/register`, `/api/auth/login`) in `backend/src/api/auth.py`
+- [x] T026 Implement job application routes (`/api/applications`, `/api/applications/{id}`) in `backend/src/api/applications.py`
+- [x] T027 Implement input validation for all API endpoints in `backend/src/schemas/`
+- [x] T028 Implement global error handling and structured logging (`Python logging`) in `backend/src/main.py`
+ 
+ ### Frontend (React)
+ - [x] T029 Create React components for user registration and login forms in `frontend/src/components/auth/`
+ - [x] T030 Implement user authentication context/provider in `frontend/src/context/AuthContext.js`
+ - [x] T031 Create React component to display job application list in `frontend/src/components/applications/ApplicationList.js`
+ - [x] T032 Implement job application filtering UI in `frontend/src/components/applications/ApplicationFilter.js`
+ - [x] T033 Create React components for adding, editing, and deleting job applications in `frontend/src/components/applications/ApplicationForm.js`
+ - [x] T034 Implement data fetching and state management for job applications in `frontend/src/services/api.js`
+ - [x] T035 Implement basic routing for login, register, and application list pages in `frontend/src/App.js`
 - [ ] T036 Git: Commit "Implement core backend and frontend features" (`git add . && git commit -m "Implement core backend and frontend features" && git push origin main`)
 
 ## Phase 3.4: Integration
