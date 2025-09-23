@@ -74,7 +74,7 @@ def test_get_applications(db_session, application_service, test_user):
     assert len(applications_limit_1) == 1
     assert applications_limit_1[0].job_title == "App 1"
 
-def test_get_application(db_session, application_service, test_user):
+def test_get_application(db_session, application_service, test_user, request):
     created_app = application_service.create_application(db_session, test_user.id, "Single App", "Single Comp", date.today(), "Applied", "Board", "url", "notes", "keys")
 
     found_app = application_service.get_application(db_session, created_app.id, test_user.id)
