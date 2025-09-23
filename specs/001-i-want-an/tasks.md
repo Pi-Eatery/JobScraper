@@ -56,19 +56,19 @@
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
 ### Contract Tests (Backend)
-- [ ] T009 [P] Contract test `POST /api/auth/register` in `backend/tests/contract/test_auth_register.py`
-- [ ] T010 [P] Contract test `POST /api/auth/login` in `backend/tests/contract/test_auth_login.py`
-- [ ] T011 [P] Contract test `POST /api/applications` in `backend/tests/contract/test_applications_post.py`
-- [ ] T012 [P] Contract test `GET /api/applications` in `backend/tests/contract/test_applications_get_all.py`
-- [ ] T013 [P] Contract test `GET /api/applications/{id}` in `backend/tests/contract/test_applications_get_by_id.py`
-- [ ] T014 [P] Contract test `PUT /api/applications/{id}` in `backend/tests/contract/test_applications_put.py`
-- [ ] T015 [P] Contract test `DELETE /api/applications/{id}` in `backend/tests/contract/test_applications_delete.py`
+- [x] T009 [P] Contract test `POST /api/auth/register` in `backend/tests/contract/test_auth_register.py`
+- [x] T010 [P] Contract test `POST /api/auth/login` in `backend/tests/contract/test_auth_login.py`
+- [x] T011 [P] Contract test `POST /api/applications` in `backend/tests/contract/test_applications_post.py`
+- [x] T012 [P] Contract test `GET /api/applications` in `backend/tests/contract/test_applications_get_all.py`
+- [x] T013 [P] Contract test `GET /api/applications/{id}` in `backend/tests/contract/test_applications_get_by_id.py`
+- [x] T014 [P] Contract test `PUT /api/applications/{id}` in `backend/tests/contract/test_applications_put.py`
+- [x] T015 [P] Contract test `DELETE /api/applications/{id}` in `backend/tests/contract/test_applications_delete.py`
 
 ### Integration Tests (Quickstart Scenarios)
-- [ ] T016 [P] Integration test user registration and login (`Scenario 1`) in `backend/tests/integration/test_user_auth.py`
-- [ ] T017 [P] Integration test add and view job application (`Scenario 2`) in `backend/tests/integration/test_applications_crud.py`
-- [ ] T018 [P] Integration test filter job applications (`Scenario 3`) in `backend/tests/integration/test_applications_filter.py`
-- [ ] T019 Git: Commit "Add all failing contract and integration tests" (`git add . && git commit -m "Add all failing contract and integration tests" && git push origin main`)
+- [x] T016 [P] Integration test user registration and login (`Scenario 1`) in `backend/tests/integration/test_user_auth.py`
+- [x] T017 [P] Integration test add and view job application (`Scenario 2`) in `backend/tests/integration/test_applications_crud.py`
+- [x] T018 [P] Integration test filter job applications (`Scenario 3`) in `backend/tests/integration/test_applications_filter.py`
+- [x] T019 Git: Commit "Add all failing contract and integration tests" (`git add . && git commit -m "Add all failing contract and integration tests" && git push origin main`)
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
