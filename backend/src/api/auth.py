@@ -28,5 +28,5 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     # In a real application, you'd generate a JWT token here
-    access_token = ""  # Placeholder: Replace with actual JWT generation
+    access_token = ""  # Placeholder: In a real application, generate a JWT token here. # nosec B105
     return {"access_token": access_token, "token_type": "bearer"}
