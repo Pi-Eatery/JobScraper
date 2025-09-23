@@ -23,12 +23,12 @@ jobs:
           python-version: '3.11'
       - name: Install Poetry
         run: pip install poetry
+      - name: Generate poetry.lock
+        working-directory: ./backend
+        run: poetry lock
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install --no-root
-      - name: Update poetry.lock
-        working-directory: ./backend
-        run: poetry lock --no-update
       - name: Lint with Black
         working-directory: ./backend
         run: poetry run black --check .
