@@ -40,10 +40,12 @@ jobs:
         run: poetry run pytest
         env:
           PYTHONPATH: ./
+      - name: Build Docker image (for Scout Scan)
+        working-directory: ./backend
+        run: docker build -t backend-image .
       - name: Docker Scout Scan
         run: |
-          docker pull $(docker build -q ./backend)
-          docker scout cves --image $(docker build -q ./backend)
+          docker scout cves --image backend-image
       - name: Run pip-audit
         working-directory: ./backend
         run: pip install pip-audit && poetry export -f requirements.txt --output requirements.txt --without-hashes && pip-audit -r requirements.txt
