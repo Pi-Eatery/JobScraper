@@ -26,6 +26,9 @@ jobs:
       - name: Generate poetry.lock
         working-directory: ./backend
         run: poetry lock
+      - name: Explicitly install pydantic-core
+        working-directory: ./backend
+        run: pip install pydantic-core
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
