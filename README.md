@@ -56,6 +56,44 @@ This section outlines how to quickly get the Job Application Tracker up and runn
     *   The frontend will be available at `http://localhost:3000`.
     *   The backend API will be available at `http://localhost:8000`.
 
+### Configuring Non-Standard Ports
+
+If you wish to use non-standard ports for the application, you will need to modify the following files:
+
+1.  **[`docker-compose.yml`](docker-compose.yml)**:
+    Update the `ports` mapping for both the `frontend` and `backend` services.
+    *   **Frontend**: Change `3000:80` to `YOUR_FRONTEND_PORT:80`.
+    *   **Backend**: Change `8000:8000` to `YOUR_BACKEND_PORT:8000`.
+
+    Example:
+    ```yaml
+    frontend:
+      ports:
+        - "8080:80" # Maps host port 8080 to container's port 80 (Nginx default)
+    backend:
+      ports:
+        - "8081:8000" # Maps host port 8081 to container's port 8000 (FastAPI default)
+    ```
+
+2.  **Cloudflare Tunnel Configuration (`tunnel.yml`)** (if used):
+    If you are using Cloudflare Tunnel, update the `service` entries in your `tunnel.yml` to reflect the new host ports.
+
+    Example `tunnel.yml` (after changing ports in `docker-compose.yml` to `8080` and `8081`):
+    ```yaml
+    ingress:
+      - hostname: frontend.yourdomain.com
+        service: http://localhost:8080
+      - hostname: backend.yourdomain.com
+        service: http://localhost:8081
+      - service: http_status:404
+    ```
+
+After making these changes, remember to rebuild and restart your Docker containers:
+```bash
+docker-compose up --build -d
+```
+And restart your `cloudflared` tunnel if you modified `tunnel.yml`.
+
 ### Quickstart Scenarios
 These scenarios represent high-level integration tests, demonstrating core user interaction flows:
 

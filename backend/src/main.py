@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI, Request, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from backend.src.middleware.auth import get_current_user
+from .middleware.auth import get_current_user
 import time
 
 from .api import auth, applications
