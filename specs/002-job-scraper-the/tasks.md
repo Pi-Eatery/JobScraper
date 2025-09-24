@@ -32,12 +32,12 @@
 - [X] T017 [P] Implement metrics for monitoring the backend services.
 
 ## Phase 3.3: Frontend
-- [ ] T018 [P] Create a new component for the job dashboard in `frontend/src/components/Dashboard.js`.
-- [ ] T019 [P] Create a service for fetching jobs from the backend in `frontend/src/services/jobService.js`.
-- [ ] T020 [P] Implement the job dashboard UI to display the list of jobs.
-- [ ] T021 [P] Implement the functionality to save, apply, and hide jobs on the dashboard.
-- [ ] T022 [P] Write unit tests for the Dashboard component in `frontend/src/tests/Dashboard.test.js`.
-- [ ] T023 [P] Write integration tests for the job management flow in `frontend/src/tests/integration/jobManagement.test.js`.
+- [X] T018 [P] Create a new component for the job dashboard in `frontend/src/components/Dashboard.js`.
+- [X] T019 [P] Create a service for fetching jobs from the backend in `frontend/src/services/jobService.js`.
+- [X] T020 [P] Implement the job dashboard UI to display the list of jobs.
+- [X] T021 [P] Implement the functionality to save, apply, and hide jobs on the dashboard.
+- [X] T022 [P] Write unit tests for the Dashboard component in `frontend/src/tests/Dashboard.test.js`.
+- [X] T023 [P] Write integration tests for the job management flow in `frontend/src/tests/integration/jobManagement.test.js`.
 
 ## Phase 3.4: Polish
 - [ ] T024 Perform load testing on the dashboard to ensure it meets the response time target.
