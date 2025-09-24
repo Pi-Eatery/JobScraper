@@ -3,12 +3,19 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+ARG REACT_APP_API_BASE_URL
+ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+
 COPY package.json package-lock.json ./
+COPY . .
 
 RUN npm install
 
-COPY . .
-
+ENV NODE_PATH=./src
+RUN echo "Build timestamp: $(date)"
+RUN echo "REACT_APP_API_BASE_URL during build: $REACT_APP_API_BASE_URL"
+RUN ls -la /app/src
+RUN ls -la /app/src/services
 RUN npm run build
 
 # Stage 2: Serve the React application with Nginx

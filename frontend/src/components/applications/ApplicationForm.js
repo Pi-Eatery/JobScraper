@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { api } from 'services/api';
 
 function ApplicationForm({ application, onSave, onCancel }) {
     const { token } = useAuth();
@@ -50,26 +51,12 @@ function ApplicationForm({ application, onSave, onCancel }) {
         event.preventDefault();
         setError('');
 
-        const apiUrl = application
-            ? `http://localhost:8000/api/applications/${application.id}`
-            : 'http://localhost:8000/api/applications/';
-        const method = application ? 'PUT' : 'POST';
-
         try {
-            const response = await fetch(apiUrl, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to save application');
+            if (application) {
+                await api.updateApplication(application.id, formData);
+            } else {
+                await api.createApplication(formData);
             }
-
             onSave(); // Notify parent component that save was successful
         } catch (err) {
             setError(err.message);

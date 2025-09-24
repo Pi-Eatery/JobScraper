@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { api } from 'services/api';
 
 const AuthContext = createContext(null);
 
@@ -18,20 +19,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (username, password) => {
         try {
-            const response = await fetch('http://localhost:8000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed');
-            }
-
-            const data = await response.json();
+            const data = await api.login(username, password);
             localStorage.setItem('access_token', data.access_token);
             setToken(data.access_token);
             setUser({ username: username }); // Set user info, possibly fetched from API

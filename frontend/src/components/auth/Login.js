@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from 'services/api';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -11,20 +12,7 @@ function Login() {
         event.preventDefault();
         setError('');
         try {
-            const response = await fetch('http://localhost:8000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed');
-            }
-
-            const data = await response.json();
+            const data = await api.login(username, password);
             // Store token (e.g., in localStorage or a context API)
             localStorage.setItem('access_token', data.access_token);
             // Navigate to a protected route, e.g., dashboard

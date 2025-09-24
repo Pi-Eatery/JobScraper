@@ -9,9 +9,9 @@ services:
       - "8000:8000"
     volumes:
       - ./backend/src:/app/src
-    environment:
-      - DATABASE_URL=sqlite:///./sql_app.db
-      - SECRET_KEY=super-secret-key
+      - ./backend/data:/app/backend/data
+    env_file:
+      - .env
     depends_on:
       - prometheus-node-exporter
 
@@ -19,10 +19,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL}
     ports:
       - "3000:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:8000/api
+    env_file:
+      - .env
     depends_on:
       - backend
 
@@ -32,7 +34,7 @@ services:
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+)($$|/)'
+      - '--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+)($|/)'
     ports:
       - "9100:9100"
     volumes:
