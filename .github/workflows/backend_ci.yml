@@ -28,7 +28,12 @@ jobs:
         run: poetry lock
       - name: Install dependencies
         working-directory: ./backend
-        run: poetry install --no-root
+        run: poetry install
+        env:
+          PYTHON_KEYRING_BACKEND: keyring.backend.null.Keyring
+      - name: Explicitly install pydantic-core
+        working-directory: ./backend
+        run: poetry run pip install pydantic-core
       - name: Lint with Black
         working-directory: ./backend
         run: poetry run black --check src/
