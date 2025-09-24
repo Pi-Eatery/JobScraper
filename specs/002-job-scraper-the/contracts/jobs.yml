@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: Job Management API
+  version: 1.0.0
+paths:
+  /jobs/{job_id}/save:
+    post:
+      summary: Save a job for later
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Job saved successfully
+  /jobs/{job_id}/apply:
+    post:
+      summary: Mark a job as applied
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Job marked as applied
+  /jobs/{job_id}/hide:
+    post:
+      summary: Hide a job from the dashboard
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Job hidden successfully
