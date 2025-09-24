@@ -19,7 +19,10 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 # Configure CORS
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost,http://localhost:3000,http://localhost:8000,http://127.0.0.1:8000").split(",")
+CORS_ORIGINS = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost,http://localhost:3000,http://localhost:8000,http://127.0.0.1:8000",
+).split(",")
 
 app.add_middleware(
     CORSMiddleware,
