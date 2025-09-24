@@ -30,6 +30,7 @@ passlib = "^1.7.4"
 python-multipart = "^0.0.18" # Upgraded to fix vulnerability
 bcrypt = "^3.2.0"
 PyJWT = "^2.10.1"
+pydantic = "^2.7.1"
 pydantic-settings = "^2.2.1"
 beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
