@@ -2,10 +2,15 @@
 __pycache__/
 *.pyc
 
+# Python specific caches
+.mypy_cache/
+.ruff_cache/
+
 # Distribution / build artifacts
 build/
 dist/
 *.egg-info/
+*.dist-info/
 
 # Dependency directories
 node_modules/
