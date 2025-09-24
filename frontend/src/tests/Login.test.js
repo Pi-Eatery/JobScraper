@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Login from '../components/auth/Login';
+import { AuthProvider } from '../context/AuthContext'; // Import AuthProvider
 
 // Mock useNavigate hook
 const mockedUsedNavigate = jest.fn();
@@ -19,7 +20,9 @@ describe('Login Component', () => {
     it('renders login form correctly', () => {
         render(
             <BrowserRouter>
-                <Login />
+                <AuthProvider>
+                    <Login />
+                </AuthProvider>
             </BrowserRouter>
         );
 
@@ -31,7 +34,9 @@ describe('Login Component', () => {
     it('updates input fields on change', () => {
         render(
             <BrowserRouter>
-                <Login />
+                <AuthProvider>
+                    <Login />
+                </AuthProvider>
             </BrowserRouter>
         );
 
@@ -56,7 +61,9 @@ describe('Login Component', () => {
 
         render(
             <BrowserRouter>
-                <Login />
+                <AuthProvider>
+                    <Login />
+                </AuthProvider>
             </BrowserRouter>
         );
 
@@ -81,7 +88,9 @@ describe('Login Component', () => {
 
         render(
             <BrowserRouter>
-                <Login />
+                <AuthProvider>
+                    <Login />
+                </AuthProvider>
             </BrowserRouter>
         );
 

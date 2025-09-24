@@ -10,7 +10,15 @@ import ApplicationList from './components/applications/ApplicationList';
 import './App.css';
 
 function PrivateRoute({ children }) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
+
+    console.log("PrivateRoute - Loading:", loading);
+    console.log("PrivateRoute - isAuthenticated:", isAuthenticated());
+
+    if (loading) {
+        return <div>Loading authentication...</div>; // Or a spinner component
+    }
+
     return isAuthenticated() ? children : <Navigate to="/login" />;
 }
 

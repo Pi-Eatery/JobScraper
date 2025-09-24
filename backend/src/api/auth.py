@@ -1,11 +1,30 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import jwt
+from datetime import datetime, timedelta
 from ..models.database import get_db
 from ..services.auth_service import AuthService
 from ..schemas.user import UserCreate, UserLogin, UserOut, Token
+from ..config import settings
 
 router = APIRouter()
 auth_service = AuthService()
+
+
+# Helper function to create JWT tokens
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(
+            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        )
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
+    return encoded_jwt
 
 
 @router.post("/register", response_model=UserOut)
@@ -27,6 +46,9 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    # In a real application, you'd generate a JWT token here
-    access_token = ""  # Placeholder: In a real application, generate a JWT token here. # nosec B105
+
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": db_user.username}, expires_delta=access_token_expires
+    )
     return {"access_token": access_token, "token_type": "bearer"}

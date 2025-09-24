@@ -15,16 +15,18 @@ RUN pip install --upgrade pip && \
     pip install poetry && \
     poetry config virtualenvs.create false --local
 
-# Copy only pyproject.toml and poetry.lock to leverage Docker cache
+# Set WORKDIR to the backend project root for dependency installation
+WORKDIR /app/backend
+
+# Copy project files
 COPY pyproject.toml poetry.lock ./
+COPY ./src ./src
 
 # Install project dependencies
 RUN poetry install --no-root
-# Copy the rest of the application code
-COPY ./src /app/src
 
-# Expose the port FastAPI runs on
+# Expose the port FastAPI runs on (this should be in the main WORKDIR or handled by Docker Compose)
 EXPOSE 8000
 
-# Command to run the application using Gunicorn with Uvicorn workers
-CMD ["gunicorn", "src.main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+# Command to run the application using Uvicorn directly for debugging
+CMD ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]

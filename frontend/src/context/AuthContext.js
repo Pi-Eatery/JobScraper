@@ -1,59 +1,63 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { api } from 'services/api';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem('access_token'));
+    const [token, setToken] = useState(() => {
+        const storedToken = localStorage.getItem('access_token');
+        console.log("AuthContext - Initial token from localStorage:", storedToken);
+        return storedToken;
+    });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log("AuthContext - useEffect triggered. Current token:", token);
         if (token) {
-            // In a real app, you'd decode the token or fetch user data
-            // to set the `user` state. For now, a placeholder.
-            setUser({ username: 'testuser' });
+            if (!user) {
+                setUser({ username: 'placeholder' }); // Or fetch user details from API
+            }
         } else {
             setUser(null);
         }
-    }, [token]);
+        setLoading(false); 
+    }, [token, user]);
 
     const login = async (username, password) => {
         try {
-            const response = await fetch('http://localhost:8000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed');
-            }
-
-            const data = await response.json();
+            setLoading(true);
+            const data = await api.login(username, password);
+            console.log("AuthContext - API login data:", data);
+            console.log("AuthContext - API login data.access_token:", data.access_token);
             localStorage.setItem('access_token', data.access_token);
+            console.log("AuthContext - Token set in localStorage:", localStorage.getItem('access_token'));
             setToken(data.access_token);
-            setUser({ username: username }); // Set user info, possibly fetched from API
+            setUser({ username: username }); 
+            setLoading(false); 
             return true;
         } catch (error) {
             console.error("Login error:", error);
+            setLoading(false); 
             throw error;
         }
     };
 
     const logout = () => {
+        console.log("AuthContext - Logging out.");
         localStorage.removeItem('access_token');
         setToken(null);
         setUser(null);
+        setLoading(false); 
     };
 
     const isAuthenticated = () => {
+        console.log("AuthContext - isAuthenticated check. Current token:", token);
         return !!token;
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, loading }}>
             {children}
         </AuthContext.Provider>
     );

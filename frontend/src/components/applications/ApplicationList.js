@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext'; // Assuming AuthContext provides the token
+import { api } from 'services/api';
 
 function ApplicationList() {
     const { token, isAuthenticated } = useAuth();
@@ -16,20 +17,7 @@ function ApplicationList() {
 
         const fetchApplications = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/applications/', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to fetch applications');
-                }
-
-                const data = await response.json();
+                const data = await api.getApplications();
                 setApplications(data);
             } catch (err) {
                 setError(err.message);

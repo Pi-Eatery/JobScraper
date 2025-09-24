@@ -2,8 +2,9 @@ import logging
 from fastapi import FastAPI, Request, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from backend.src.middleware.auth import get_current_user
+from .middleware.auth import get_current_user
 import time
+import os
 
 from .api import auth, applications
 from .models.database import Base, engine  # Import Base and engine
@@ -18,16 +19,14 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 # Configure CORS
-origins = [
-    "http://localhost",
-    "http://localhost:3000",  # React frontend default port
-    "http://localhost:8000",  # FastAPI backend default port
-    "http://127.0.0.1:8000",
-]
+CORS_ORIGINS = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost,http://localhost:3000,http://localhost:8000,http://127.0.0.1:8000",
+).split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

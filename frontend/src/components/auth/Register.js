@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from 'services/api';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -12,19 +13,7 @@ function Register() {
         event.preventDefault();
         setError('');
         try {
-            const response = await fetch('http://localhost:8000/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Registration failed');
-            }
-
+            await api.register(username, email, password);
             // Registration successful, navigate to login
             navigate('/login');
         } catch (err) {
