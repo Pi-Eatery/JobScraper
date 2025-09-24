@@ -48,27 +48,27 @@ def test_get_job_keywords():
     del os.environ["JOB_KEYWORDS"]
 
 def test_scrape_all_jobs_deduplication():
-    with patch('backend.src.services.scraper_linkedin.scrape_linkedin_jobs') as mock_linkedin,
-         patch('backend.src.services.scraper_indeed.scrape_indeed_jobs') as mock_indeed,
-         patch('backend.src.services.scraper_dice.scrape_dice_jobs') as mock_dice:
+    with patch('backend.src.services.scraper.scrape_linkedin_jobs') as mock_linkedin:
+        with patch('backend.src.services.scraper.scrape_indeed_jobs') as mock_indeed:
+            with patch('backend.src.services.scraper.scrape_dice_jobs') as mock_dice:
 
-        mock_linkedin.return_value = [
-            {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"}
-        ]
-        mock_indeed.return_value = [
-            {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"},
-            {"title": "Job B", "company": "Company Y", "description": "", "application_link": "", "salary": "", "status": "new"}
-        ]
-        mock_dice.return_value = [
-            {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"},
-            {"title": "Job C", "company": "Company Z", "description": "", "application_link": "", "salary": "", "status": "new"}
-        ]
+                mock_linkedin.return_value = [
+                    {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"}
+                ]
+                mock_indeed.return_value = [
+                    {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"},
+                    {"title": "Job B", "company": "Company Y", "description": "", "application_link": "", "salary": "", "status": "new"}
+                ]
+                mock_dice.return_value = [
+                    {"title": "Job A", "company": "Company X", "description": "", "application_link": "", "salary": "", "status": "new"},
+                    {"title": "Job C", "company": "Company Z", "description": "", "application_link": "", "salary": "", "status": "new"}
+                ]
 
-        os.environ["JOB_KEYWORDS"] = "test"
-        jobs = scrape_all_jobs()
-        del os.environ["JOB_KEYWORDS"]
+                os.environ["JOB_KEYWORDS"] = "test"
+                jobs = scrape_all_jobs()
+                del os.environ["JOB_KEYWORDS"]
 
-        assert len(jobs) == 3
-        assert any(job["title"] == "Job A" and job["company"] == "Company X" for job in jobs)
-        assert any(job["title"] == "Job B" and job["company"] == "Company Y" for job in jobs)
-        assert any(job["title"] == "Job C" and job["company"] == "Company Z" for job in jobs)
+                assert len(jobs) == 3
+                assert any(job["title"] == "Job A" and job["company"] == "Company X" for job in jobs)
+                assert any(job["title"] == "Job B" and job["company"] == "Company Y" for job in jobs)
+                assert any(job["title"] == "Job C" and job["company"] == "Company Z" for job in jobs)

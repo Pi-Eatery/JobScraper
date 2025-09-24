@@ -17,7 +17,7 @@ name = "backend"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-packages = [{include = "src", from = "backend"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -40,6 +40,7 @@ prometheus_client = "^0.20.0"
 black = "^24.4.2"
 bandit = "^1.7.9"
 pytest = "^8.2.2"
+httpx = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core"]
