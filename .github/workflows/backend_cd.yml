@@ -23,10 +23,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get Lowercase Repository Name
+        id: get_repo_name
+        run: echo "::set-output name=repo::$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+
       - name: Build and Push Backend Docker Image
         run: |
-          docker build ./backend --tag ghcr.io/${{ lower(github.repository) }}/jobscraper-backend:latest
-          docker push ghcr.io/${{ lower(github.repository) }}/jobscraper-backend:latest
+          docker build ./backend --tag ghcr.io/${{ steps.get_repo_name.outputs.repo }}/jobscraper-backend:latest
+          docker push ghcr.io/${{ steps.get_repo_name.outputs.repo }}/jobscraper-backend:latest
 
       # This step is a placeholder for actual deployment to a Linux server via Cloudflare Tunnels.
       # In a real-world scenario, you would typically SSH into your server and run commands
