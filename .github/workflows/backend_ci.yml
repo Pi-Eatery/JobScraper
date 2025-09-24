@@ -26,12 +26,16 @@ jobs:
       - name: Generate poetry.lock
         working-directory: ./backend
         run: poetry lock
-      - name: Explicitly install pydantic-core
-        working-directory: ./backend
-        run: pip install pydantic-core
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
+      - name: Explicitly install pydantic and pydantic-core with pip
+        working-directory: ./backend
+        run: poetry run pip install "pydantic==2.11.9" "pydantic-core==2.13.2"
+      - name: Diagnose pydantic-core
+        working-directory: ./backend
+        run: |
+          poetry run python -c "import pydantic_core; print(f'pydantic_core version: {pydantic_core.__version__}'); from pydantic_core import _pydantic_core; print('Successfully imported _pydantic_core')"
       - name: Lint with Black
         working-directory: ./backend
         run: poetry run black --check src/
