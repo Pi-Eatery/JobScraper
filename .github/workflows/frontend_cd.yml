@@ -25,8 +25,8 @@ jobs:
 
       - name: Build and Push Frontend Docker Image
         run: |
-          docker build ./frontend --tag ghcr.io/${{ github.repository }}/jobscraper-frontend:latest
-          docker push ghcr.io/${{ github.repository }}/jobscraper-frontend:latest
+          docker build ./frontend --tag ghcr.io/${{ lower(github.repository) }}/jobscraper-frontend:latest
+          docker push ghcr.io/${{ lower(github.repository) }}/jobscraper-frontend:latest
 
       # This step is a placeholder for actual deployment to a Linux server via Cloudflare Tunnels.
       # In a real-world scenario, you would typically SSH into your server and run commands
