@@ -35,8 +35,13 @@ jobs:
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
-        env:
-          POETRY_INSTALL_NO_BINARY: pydantic-core
+      - name: Explicitly install pydantic-core with pip (verbose)
+        working-directory: ./backend
+        run: poetry run pip install -vvv "pydantic-core==2.33.2"
+      - name: Diagnose pydantic-core
+        working-directory: ./backend
+        run: |
+          poetry run python -c "import pydantic_core; print(f'pydantic_core version: {pydantic_core.__version__}'); from pydantic_core import _pydantic_core; print('Successfully imported _pydantic_core')" || true
       - name: Lint with Black
         working-directory: ./backend
         run: poetry run black --check src/
