@@ -50,3 +50,4 @@ Thumbs.db
 # Agent-specific files
 .roo/
 .specify/
+.gemini/
