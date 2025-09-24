@@ -10,6 +10,7 @@ REQUEST_LATENCY = Histogram(
     "http_request_duration_seconds", "HTTP request latency", ["method", "endpoint"]
 )
 
+
 class MetricsMiddleware(BaseHTTPMiddleware):
     def __init__(self, app: ASGIApp):
         super().__init__(app)
@@ -21,8 +22,11 @@ class MetricsMiddleware(BaseHTTPMiddleware):
         with REQUEST_LATENCY.labels(method=method, endpoint=endpoint).time():
             response = await call_next(request)
 
-        REQUESTS_TOTAL.labels(method=method, endpoint=endpoint, status_code=response.status_code).inc()
+        REQUESTS_TOTAL.labels(
+            method=method, endpoint=endpoint, status_code=response.status_code
+        ).inc()
         return response
+
 
 async def metrics_endpoint(request):
     return Response(generate_latest(), media_type="text/plain")

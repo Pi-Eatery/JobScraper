@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { api } from 'services/api';
 
 function ApplicationForm({ application, onSave, onCancel }) {
-    const { token } = useAuth();
+    useAuth(); // Call useAuth to ensure context is loaded, but don't destructure token
     const [formData, setFormData] = useState({
         job_title: '',
         company: '',

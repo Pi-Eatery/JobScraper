@@ -15,9 +15,7 @@ from .middleware.metrics import MetricsMiddleware, metrics_endpoint
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
-formatter = jsonlogger.JsonFormatter(
-    '%(asctime)s %(levelname)s %(name)s %(message)s'
-)
+formatter = jsonlogger.JsonFormatter("%(asctime)s %(levelname)s %(name)s %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -58,10 +56,10 @@ app.include_router(
     dependencies=[Depends(get_current_user)],
 )
 
+
 @app.get("/metrics")
 async def get_metrics(request: Request):
     return await metrics_endpoint(request)
-
 
 
 @app.middleware("http")

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Dashboard from '../../components/Dashboard';
 import * as jobService from '../../services/jobService';
@@ -20,7 +20,7 @@ describe('Job Management Integration Flow', () => {
     render(<Dashboard />);
 
     // Wait for the job to be displayed
-    await waitFor(() => expect(screen.getByText(/Software Engineer/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Software Engineer/i)).toBeInTheDocument();
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
     // Mock the saveJob call
@@ -33,15 +33,15 @@ describe('Job Management Integration Flow', () => {
     userEvent.click(saveButton);
 
     // Verify saveJob was called and status updated
-    await waitFor(() => expect(jobService.saveJob).toHaveBeenCalledWith(1));
-    expect(screen.getByText(/Status: saved/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Status: saved/i)).toBeInTheDocument();
+    expect(jobService.saveJob).toHaveBeenCalledWith(1);
     expect(saveButton).toBeDisabled();
   });
 
   test('user can apply to a job and see its status update', async () => {
     render(<Dashboard />);
 
-    await waitFor(() => expect(screen.getByText(/Software Engineer/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Software Engineer/i)).toBeInTheDocument();
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
     jobService.applyJob.mockResolvedValueOnce(
@@ -51,15 +51,15 @@ describe('Job Management Integration Flow', () => {
     const applyButton = screen.getByRole('button', { name: /Apply/i });
     userEvent.click(applyButton);
 
-    await waitFor(() => expect(jobService.applyJob).toHaveBeenCalledWith(1));
-    expect(screen.getByText(/Status: applied/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Status: applied/i)).toBeInTheDocument();
+    expect(jobService.applyJob).toHaveBeenCalledWith(1);
     expect(applyButton).toBeDisabled();
   });
 
   test('user can hide a job and see its status update', async () => {
     render(<Dashboard />);
 
-    await waitFor(() => expect(screen.getByText(/Software Engineer/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Software Engineer/i)).toBeInTheDocument();
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
     jobService.hideJob.mockResolvedValueOnce(
@@ -69,8 +69,8 @@ describe('Job Management Integration Flow', () => {
     const hideButton = screen.getByRole('button', { name: /Hide/i });
     userEvent.click(hideButton);
 
-    await waitFor(() => expect(jobService.hideJob).toHaveBeenCalledWith(1));
-    expect(screen.getByText(/Status: hidden/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Status: hidden/i)).toBeInTheDocument();
+    expect(jobService.hideJob).toHaveBeenCalledWith(1);
     expect(hideButton).toBeDisabled();
   });
 });

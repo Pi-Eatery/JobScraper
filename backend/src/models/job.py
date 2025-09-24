@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from backend.src.models.database import Base
 
+
 class Job(Base):
     __tablename__ = "jobs"
 
@@ -14,4 +15,4 @@ class Job(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     def __repr__(self):
-        return f"<Job(title='{self.title}', company='{self.company}')>""
+        return f"<Job(title='{self.title}', company='{self.company}')>"
