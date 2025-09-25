@@ -21,9 +21,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Explicitly install pydantic and pydantic-core with pip
-        working-directory: ./backend
-        run: pip install "pydantic==2.11.9" "pydantic-core==2.33.2"
+
       - name: Install Poetry
         run: pip install poetry
       - name: Generate poetry.lock
