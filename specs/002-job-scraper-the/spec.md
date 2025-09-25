@@ -17,6 +17,9 @@
 - Q: What is the expected response time for the dashboard to load with jobs? → A: 1-3 seconds
 - Q: What is the acceptable downtime for the application per month? → A: Best effort for now, but 99.9% uptime in production.
 - Q: What are the key metrics to define "Done" for this feature? → A: All functional requirements implemented and tested, code coverage of at least 80%, and all acceptance scenarios pass.
+- Q: What is the desired frequency for automatically scraping jobs? → A: Twice daily.
+- Q: Where should application errors and critical events be logged? → A: Local file system.
+- Q: What is the desired interval for attempting to re-scrape when online job boards are unavailable? → A: 1 hour.
 
 ## Execution Flow (main)
 ```
@@ -77,8 +80,8 @@ As a user, I want to register and log in to the application to see a dashboard p
 
 ### Edge Cases
 - What happens when no jobs match the keywords? → Display a message saying "No jobs found".
-- What happens when the online job boards are unavailable?
-- What happens if the .env file is missing or has no keywords?
+- When online job boards are unavailable, the system SHOULD display a user-friendly error message and attempt to re-scrape after 1 hour.
+- If no keywords are defined by the user in the database, the system SHOULD display a message indicating that no keywords are set and offer an option to add them.
 
 ## Requirements *(mandatory)*
 
@@ -86,24 +89,19 @@ As a user, I want to register and log in to the application to see a dashboard p
 - **FR-001**: System MUST allow users to register for a new account.
 - **FR-002**: System MUST allow users to log in with their credentials.
 - **FR-003**: System MUST display a dashboard to logged-in users.
-- **FR-004**: System MUST automatically scrape jobs from LinkedIn, Indeed, and Dice.
-- **FR-005**: System MUST filter scraped jobs based on keywords defined in a .env file.
-- **FR-006**: The dashboard MUST display the filtered list of jobs.
-- **FR-007**: System MUST identify and filter out duplicate job postings based on the job title and company name.
-- **FR-008**: Users MUST be able to save a job for later.
-- **FR-009**: Users MUST be able to mark a job as applied.
-- **FR-010**: Users MUST be able to hide a job from the dashboard.
+- **FR-004**: System MUST automatically scrape jobs from LinkedIn, Indeed, and Dice twice daily.
+- **FR-005**: System MUST filter scraped jobs based on keywords managed in the database.
 
 ### Non-Functional Requirements
 - **NFR-001**: User passwords MUST be stored hashed with a strong algorithm (e.g., bcrypt, Argon2).
-- **NFR-002**: The application MUST log all errors and critical events.
-- **NFR-003**: The dashboard MUST load with jobs in 1-3 seconds.
-- **NFR-004**: The application availability target is best effort for now. In production, it MUST be 99.9% uptime (less than 1 hour of downtime per month).
+- **NFR-002**: The application MUST log all errors and critical events to the local file system.
+- NFR-003: The dashboard MUST load and display all initial job listings within 1-3 seconds.
+- **NFR-004**: The application availability target is 95% uptime in development/staging environments. In production, it MUST be 99.9% uptime (less than 1 hour of downtime per month).
 
 ### Key Entities *(include if feature involves data)*
 - **User**: Represents a user of the application, with credentials for login.
 - **Job**: Represents a job posting scraped from an online source, with details like title, company, description, application link (required), and salary (optional).
-- **Keyword**: Represents a search term used to filter jobs.
+- **Keyword**: Represents a search term used to filter jobs, managed by the user in the database.
 
 ## Definition of Done
 - All functional requirements implemented and tested.

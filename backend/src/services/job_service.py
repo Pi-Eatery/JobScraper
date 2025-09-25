@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from backend.src.models.job import Job
-from backend.src.models.keyword import Keyword
+from ..models.job import Job
+from ..models.keyword import Keyword
 
 
 def create_job(db: Session, job_data: dict, user_id: int):

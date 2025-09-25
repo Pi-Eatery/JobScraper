@@ -1,11 +1,24 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend.src.models.database import get_db
-from backend.src.services import job_service
-from backend.src.middleware.auth import get_current_user
-from backend.src.models.user import User as DBUser
+from typing import List
+from ..models.database import get_db
+from ..services import job_service
+from ..middleware.auth import get_current_user
+from ..models.user import User as DBUser
+from ..schemas.job import JobOut
 
 router = APIRouter()
+
+
+@router.get("/jobs/", response_model=List[JobOut])
+async def read_jobs(
+    skip: int = 0,
+    limit: int = 100,
+    current_user: DBUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    jobs = job_service.get_jobs(db, int(current_user.id), skip=skip, limit=limit)
+    return jobs
 
 
 @router.post("/jobs/{job_id}/save", status_code=status.HTTP_200_OK)
@@ -14,7 +27,7 @@ async def save_job(
     current_user: DBUser = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    db_job = job_service.update_job_status(db, job_id, current_user.id, "saved")
+    db_job = job_service.update_job_status(db, job_id, int(current_user.id), "saved")
     if not db_job:
         raise HTTPException(status_code=404, detail="Job not found or not authorized")
     return {"message": "Job saved successfully"}
@@ -26,7 +39,7 @@ async def apply_job(
     current_user: DBUser = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    db_job = job_service.update_job_status(db, job_id, current_user.id, "applied")
+    db_job = job_service.update_job_status(db, job_id, int(current_user.id), "applied")
     if not db_job:
         raise HTTPException(status_code=404, detail="Job not found or not authorized")
     return {"message": "Job marked as applied"}
@@ -38,7 +51,7 @@ async def hide_job(
     current_user: DBUser = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    db_job = job_service.update_job_status(db, job_id, current_user.id, "hidden")
+    db_job = job_service.update_job_status(db, job_id, int(current_user.id), "hidden")
     if not db_job:
         raise HTTPException(status_code=404, detail="Job not found or not authorized")
     return {"message": "Job hidden successfully"}

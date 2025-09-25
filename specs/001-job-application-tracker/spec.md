@@ -73,10 +73,10 @@ A single user can log into the application, view a personalized list of their jo
 ### Functional Requirements
 - **FR-001**: System MUST allow a single user to register and log in securely.
 - **FR-002**: System MUST display a list of job applications to the logged-in user.
-- **FR-003**: User MUST be able to filter the displayed job applications using keywords. [NEEDS CLARIFICATION: What other filtering criteria are needed (e.g., status, date applied, company)?]
-- **FR-004**: System MUST source job postings only from a predefined list of "verified good job boards" to prevent scam listings. [NEEDS CLARIFICATION: How is a "verified good job board" defined and maintained?]
-- **FR-005**: System MUST ensure accessibility for users, adhering to common web accessibility standards. [NEEDS CLARIFICATION: Which specific accessibility standards (e.g., WCAG 2.1 AA) must be met?]
-- **FR-006**: System MUST enable easy sharing for the purpose of a portfolio project. [NEEDS CLARIFICATION: What specific sharing mechanisms are required (e.g., public URL, embeddable code, screenshot functionality)?]
+FR-003: User MUST be able to filter the displayed job applications using keywords, status, date applied, and company.
+FR-004: System MUST source job postings only from a predefined and maintainable list of "verified good job boards" to prevent scam listings.
+- **FR-005**: System MUST ensure accessibility for users, adhering to common web accessibility standards. (WCAG 2.1 AA)
+FR-006: System MUST enable easy sharing for the purpose of a portfolio project (e.g., public URL for viewing).
 
 ### Key Entities *(include if feature involves data)*
 - **User**: Represents a single authenticated individual using the application. Key attributes include username, password (hashed), and associated job applications.

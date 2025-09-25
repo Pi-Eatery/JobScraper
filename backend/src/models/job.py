@@ -1,5 +1,14 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from backend.src.models.database import Base
+from sqlalchemy import Column, Integer, String, ForeignKey, Table
+from sqlalchemy.orm import relationship
+from .database import Base
+
+# Association table for many-to-many relationship between jobs and keywords
+job_keywords_association = Table(
+    "job_keywords_association",
+    Base.metadata,
+    Column("job_id", Integer, ForeignKey("jobs.id"), primary_key=True),
+    Column("keyword_id", Integer, ForeignKey("keywords.id"), primary_key=True),
+)
 
 
 class Job(Base):
@@ -13,6 +22,10 @@ class Job(Base):
     salary = Column(String, nullable=True)
     status = Column(String, default="new")
     user_id = Column(Integer, ForeignKey("users.id"))
+
+    keywords = relationship(
+        "Keyword", secondary=job_keywords_association, back_populates="jobs"
+    )
 
     def __repr__(self):
         return f"<Job(title='{self.title}', company='{self.company}')>"

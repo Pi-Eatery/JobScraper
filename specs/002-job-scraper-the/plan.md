@@ -94,8 +94,8 @@ No research needed as there are no NEEDS CLARIFICATION in the spec.
 ## Phase 1: Design & Contracts
 *Prerequisites: research.md complete*
 
-1. **Extract entities from feature spec** → `data-model.md`:
-   - Entity name, fields, relationships
+2. **Extract entities from feature spec** → `data-model.md`:
+   - Entity name, fields, relationships (including Keyword entity for managing search terms)
    - Validation rules from requirements
    - State transitions if applicable
 

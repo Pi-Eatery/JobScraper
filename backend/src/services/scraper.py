@@ -1,8 +1,10 @@
 import os
 from typing import List, Dict
-from backend.src.services.scraper_linkedin import scrape_linkedin_jobs
-from backend.src.services.scraper_indeed import scrape_indeed_jobs
-from backend.src.services.scraper_dice import scrape_dice_jobs
+from sqlalchemy.orm import Session
+from .scraper_linkedin import scrape_linkedin_jobs
+from .scraper_indeed import scrape_indeed_jobs
+from .scraper_dice import scrape_dice_jobs
+from ..services import job_service
 
 
 def get_job_keywords() -> List[str]:
@@ -10,13 +12,13 @@ def get_job_keywords() -> List[str]:
     return [keyword.strip() for keyword in keywords_str.split(",") if keyword.strip()]
 
 
-def scrape_all_jobs() -> List[Dict]:
+def scrape_all_jobs(db: Session, user_id: int) -> None:
     keywords = get_job_keywords()
     if not keywords:
         print("No job keywords found in JOB_KEYWORDS environment variable.")
-        return []
+        return
 
-    all_jobs = []
+    all_jobs_data = []
     seen_jobs = set()  # To store unique job identifiers (title, company)
 
     scraped_linkedin = scrape_linkedin_jobs(keywords)
@@ -24,13 +26,14 @@ def scrape_all_jobs() -> List[Dict]:
     scraped_dice = scrape_dice_jobs(keywords)
 
     for job_list in [scraped_linkedin, scraped_indeed, scraped_dice]:
-        for job in job_list:
-            job_identifier = (job.get("title"), job.get("company"))
+        for job_data in job_list:
+            job_identifier = (job_data.get("title"), job_data.get("company"))
             if job_identifier not in seen_jobs:
-                all_jobs.append(job)
+                all_jobs_data.append(job_data)
                 seen_jobs.add(job_identifier)
 
-    return all_jobs
+    for job_data in all_jobs_data:
+        job_service.create_job(db, job_data, user_id)
 
 
 if __name__ == "__main__":

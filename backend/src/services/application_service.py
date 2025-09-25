@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+from typing import List, Optional
 from ..models.job_application import JobApplication
+from ..models.keyword import Keyword
 from datetime import date
 
 
@@ -12,10 +14,9 @@ class ApplicationService:
         company: str,
         application_date: date,
         status: str,
-        job_board: str,
-        url: str,
-        notes: str,
-        keywords: str,
+        job_board: Optional[str],
+        url: Optional[str],
+        notes: Optional[str],
     ):
         db_application = JobApplication(
             user_id=user_id,
@@ -26,7 +27,6 @@ class ApplicationService:
             job_board=job_board,
             url=url,
             notes=notes,
-            keywords=keywords,
         )
         db.add(db_application)
         db.commit()
@@ -34,15 +34,30 @@ class ApplicationService:
         return db_application
 
     def get_applications(
-        self, db: Session, user_id: int, skip: int = 0, limit: int = 100
+        self,
+        db: Session,
+        user_id: int,
+        skip: int = 0,
+        limit: int = 100,
+        status: Optional[str] = None,
+        company: Optional[str] = None,
+        job_board: Optional[str] = None,
+        keyword_terms: Optional[List[str]] = None,
     ):
-        return (
-            db.query(JobApplication)
-            .filter(JobApplication.user_id == user_id)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+        query = db.query(JobApplication).filter(JobApplication.user_id == user_id)
+
+        if status:
+            query = query.filter(JobApplication.status == status)
+        if company:
+            query = query.filter(JobApplication.company.ilike(f"%{company}%"))
+        if job_board:
+            query = query.filter(JobApplication.job_board == job_board)
+        if keyword_terms:
+            query = query.join(JobApplication.keywords).filter(
+                Keyword.term.in_(keyword_terms)
+            )
+
+        return query.offset(skip).limit(limit).all()
 
     def get_application(self, db: Session, application_id: int, user_id: int):
         return (
@@ -58,14 +73,13 @@ class ApplicationService:
         db: Session,
         application_id: int,
         user_id: int,
-        job_title: str = None,
-        company: str = None,
-        application_date: date = None,
-        status: str = None,
-        job_board: str = None,
-        url: str = None,
-        notes: str = None,
-        keywords: str = None,
+        job_title: Optional[str] = None,
+        company: Optional[str] = None,
+        application_date: Optional[date] = None,
+        status: Optional[str] = None,
+        job_board: Optional[str] = None,
+        url: Optional[str] = None,
+        notes: Optional[str] = None,
     ):
         db_application = self.get_application(db, application_id, user_id)
         if db_application:
@@ -83,8 +97,6 @@ class ApplicationService:
                 db_application.url = url
             if notes is not None:
                 db_application.notes = notes
-            if keywords is not None:
-                db_application.keywords = keywords
             db.commit()
             db.refresh(db_application)
         return db_application

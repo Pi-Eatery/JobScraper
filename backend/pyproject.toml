@@ -42,6 +42,9 @@ black = "^24.4.2"
 bandit = "^1.7.9"
 pytest = "^8.2.2"
 httpx = "^0.28.1"
+mypy = "^1.18.2"
+types-requests = "^2.32.4.20250913"
+types-passlib = "^1.7.7.20250602"
 
 [build-system]
 requires = ["poetry-core"]
