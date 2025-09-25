@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import ApplicationList from './components/applications/ApplicationList';
+
 import Dashboard from './components/Dashboard'; // Import the Dashboard component
 import KeywordManager from './components/keywords/KeywordManager'; // Import KeywordManager
 

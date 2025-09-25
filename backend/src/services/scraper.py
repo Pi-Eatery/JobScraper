@@ -36,9 +36,4 @@ def scrape_all_jobs(db: Session, user_id: int) -> None:
         job_service.create_job(db, job_data, user_id)
 
 
-if __name__ == "__main__":
-    # Example usage
-    os.environ["JOB_KEYWORDS"] = "Python,FastAPI,React"
-    jobs = scrape_all_jobs()
-    for job in jobs:
-        print(job)
+
