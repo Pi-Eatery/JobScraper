@@ -17,7 +17,7 @@ name = "backend"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-packages = [{include = "src", from = "backend"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -30,12 +30,23 @@ passlib = "^1.7.4"
 python-multipart = "^0.0.18" # Upgraded to fix vulnerability
 bcrypt = "^3.2.0"
 PyJWT = "^2.10.1"
+pydantic = "2.11.9"
+pydantic-core = "2.33.2"
 pydantic-settings = "^2.2.1"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+python-json-logger = "^2.0.7"
+prometheus_client = "^0.20.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
 bandit = "^1.7.9"
 pytest = "^8.2.2"
+httpx = "^0.28.1"
+mypy = "^1.18.2"
+types-requests = "^2.32.4.20250913"
+types-passlib = "^1.7.7.20250602"
+pip-audit = "^2.9.0"
 
 [build-system]
 requires = ["poetry-core"]

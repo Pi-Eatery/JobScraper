@@ -82,6 +82,8 @@
 - [x] T026 Implement job application routes (`/api/applications`, `/api/applications/{id}`) in `backend/src/api/applications.py`
 - [x] T027 Implement input validation for all API endpoints in `backend/src/schemas/`
 - [x] T028 Implement global error handling and structured logging (`Python logging`) in `backend/src/main.py`
+- [x] T058 Implement additional filtering criteria (status, date applied, company) for job applications in `backend/src/services/application_service.py` and `backend/src/api/applications.py`.
+- [x] T059 Define and implement a mechanism for managing the list of "verified good job boards" (e.g., a configuration file or database table) in `backend/src/config.py` or `backend/src/models/job_board.py`.
  
  ### Frontend (React)
  - [x] T029 Create React components for user registration and login forms in `frontend/src/components/auth/`
@@ -114,6 +116,8 @@
 - [x] T052 [P] Integrate `Docker Scout` for container image scanning in CI/CD
 - [x] T053 [P] Implement `pip-audit` for dependency vulnerability checks in CI/CD
 - [x] T054 Refine GitHub Actions workflow for CD (deploy to Linux server via Cloudflare Tunnels) in `.github/workflows/backend_cd.yml` and `.github/workflows/frontend_cd.yml`
+- [x] T056 Define and implement accessibility standards (e.g., WCAG 2.1 AA) for frontend components.
+- [x] T057 Define and implement sharing mechanisms (e.g., public URL, embeddable code) for portfolio project.
 - [x] T055 Git: Commit "Final polish, tests, and CI/CD refinements" (`git add . && git commit -m "Final polish, tests, and CI/CD refinements" && git push origin main`)
 
 ## Dependencies

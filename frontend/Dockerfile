@@ -13,7 +13,7 @@ RUN npm install
 
 ENV NODE_PATH=./src
 RUN echo "Build timestamp: $(date)"
-RUN npm run build
+RUN REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} npm run build
 
 # Stage 2: Serve the React application with Nginx
 FROM nginx:alpine

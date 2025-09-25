@@ -12,3 +12,4 @@ class User(Base):
     email = Column(String, unique=True, index=True)
 
     applications = relationship("JobApplication", back_populates="user")
+    keywords = relationship("Keyword", back_populates="user")

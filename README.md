@@ -7,9 +7,10 @@ The "Job Application Tracker" is a personal platform designed for a single user 
 *   **Secure Authentication**: User registration and login functionality.
 *   **Personalized Application Management**: Display and manage job applications.
 *   **Advanced Filtering**: Filter job applications by keywords and other criteria.
+*   **Automated Job Scraping**: Automatically scrape job postings from various platforms.
 
 ## Tech Stack
-*   **Backend**: Python (FastAPI)
+*   **Backend**: Python (FastAPI), BeautifulSoup, Scrapy
 *   **Frontend**: React
 *   **Database**: SQLite
 *   **Containerization**: Docker, Docker Compose
@@ -38,18 +39,19 @@ This section outlines how to quickly get the Job Application Tracker up and runn
     ```
     SECRET_KEY="your_super_secret_key"
     DATABASE_URL="sqlite:///./sql_app.db"
-    # Add any other necessary backend environment variables
+    REACT_APP_API_BASE_URL="http://192.168.2.201:8000/api" # The URL where the frontend will access the backend API. Adjust IP as needed.
+    CORS_ORIGINS="http://192.168.2.201:3000" # The origin(s) allowed to make requests to the backend. Adjust IP as needed.
     ```
-    (Note: `SECRET_KEY` should be a strong, randomly generated string.)
+    (Note: `SECRET_KEY` should be a strong, randomly generated string. `REACT_APP_API_BASE_URL` and `CORS_ORIGINS` should reflect the IP address where your frontend is served and where your backend is exposed.)
 
 3.  **Build and Run Docker Containers**:
     Build and start the backend and frontend services using Docker Compose:
     ```bash
-    docker-compose up --build -d
+    docker compose up --build -d
     ```
     Verify that the containers are running:
     ```bash
-    docker-compose ps
+    docker compose ps
     ```
 
 4.  **Access the Application**:
@@ -90,7 +92,7 @@ If you wish to use non-standard ports for the application, you will need to modi
 
 After making these changes, remember to rebuild and restart your Docker containers:
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 And restart your `cloudflared` tunnel if you modified `tunnel.yml`.
 

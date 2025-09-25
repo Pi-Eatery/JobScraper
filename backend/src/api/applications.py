@@ -4,21 +4,20 @@ from typing import List, Optional
 from datetime import date
 
 from ..models.database import get_db
+from ..models.keyword import Keyword
+from ..models.user import User
 from ..services.application_service import ApplicationService
+from ..services.keyword_service import KeywordService
 from ..schemas.job_application import (
     JobApplicationCreate,
     JobApplicationUpdate,
     JobApplicationOut,
 )
+from ..middleware.auth import get_current_user
 
 router = APIRouter()
 application_service = ApplicationService()
-
-
-# Placeholder for current user authentication
-# In a real app, this would decode a JWT and return the user ID
-def get_current_user_id():
-    return 1  # For now, assume user with ID 1 is logged in
+keyword_service = KeywordService()
 
 
 @router.post(
@@ -29,11 +28,11 @@ def get_current_user_id():
 def create_application(
     application: JobApplicationCreate,
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
+    current_user: User = Depends(get_current_user),
 ):
-    return application_service.create_application(
+    db_application = application_service.create_application(
         db=db,
-        user_id=user_id,
+        user_id=int(current_user.id),
         job_title=application.job_title,
         company=application.company,
         application_date=application.application_date,
@@ -41,19 +40,40 @@ def create_application(
         job_board=application.job_board,
         url=application.url,
         notes=application.notes,
-        keywords=application.keywords,
     )
+
+    for term in application.keywords:
+        keyword = keyword_service.get_keyword_by_term(db, term=term)
+        if not keyword:
+            keyword = keyword_service.create_keyword(
+                db, term=term, user_id=int(current_user.id)
+            )
+        db_application.keywords.append(keyword)
+    db.commit()
+    db.refresh(db_application)
+    return db_application
 
 
 @router.get("/applications/", response_model=List[JobApplicationOut])
 def read_applications(
     skip: int = 0,
     limit: int = 100,
+    status: Optional[str] = None,
+    company: Optional[str] = None,
+    job_board: Optional[str] = None,
+    keyword_terms: Optional[List[str]] = None,
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
+    current_user: User = Depends(get_current_user),
 ):
     applications = application_service.get_applications(
-        db, user_id=user_id, skip=skip, limit=limit
+        db,
+        user_id=int(current_user.id),
+        skip=skip,
+        limit=limit,
+        status=status,
+        company=company,
+        job_board=job_board,
+        keyword_terms=keyword_terms,
     )
     return applications
 
@@ -62,10 +82,10 @@ def read_applications(
 def read_application(
     application_id: int,
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
+    current_user: User = Depends(get_current_user),
 ):
     application = application_service.get_application(
-        db, application_id=application_id, user_id=user_id
+        db, application_id=application_id, user_id=int(current_user.id)
     )
     if not application:
         raise HTTPException(status_code=404, detail="Application not found")
@@ -77,36 +97,35 @@ def update_application(
     application_id: int,
     application_update: JobApplicationUpdate,
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
+    current_user: User = Depends(get_current_user),
 ):
-    updated_application = application_service.update_application(
-        db=db,
-        application_id=application_id,
-        user_id=user_id,
-        job_title=application_update.job_title,
-        company=application_update.company,
-        application_date=application_update.application_date,
-        status=application_update.status,
-        job_board=application_update.job_board,
-        url=application_update.url,
-        notes=application_update.notes,
-        keywords=application_update.keywords,
+    # Get existing application and its keywords
+    db_application = application_service.get_application(
+        db, application_id=application_id, user_id=int(current_user.id)
     )
-    if not updated_application:
+    if not db_application:
         raise HTTPException(
             status_code=404, detail="Application not found or not authorized"
         )
-    return updated_application
+
+    # Update basic application fields
+    updated_application_data = application_update.model_dump(exclude_unset=True)
+    for key, value in updated_application_data.items():
+        setattr(db_application, key, value)
+
+    db.commit()
+    db.refresh(db_application)
+    return db_application
 
 
 @router.delete("/applications/{application_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_application(
     application_id: int,
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
+    current_user: User = Depends(get_current_user),
 ):
     deleted_application = application_service.delete_application(
-        db, application_id=application_id, user_id=user_id
+        db, application_id=application_id, user_id=int(current_user.id)
     )
     if not deleted_application:
         raise HTTPException(

@@ -51,3 +51,8 @@ Thumbs.db
 .roo/
 .specify/
 .gemini/
+
+# BMad and Web-bundles
+web-bundles/
+.bmad-core/
+.bmad-infrastructure-devops/

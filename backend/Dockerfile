@@ -1,18 +1,18 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim-bookworm
+FROM python:3.12-alpine
 
 # Set the working directory in the container
 WORKDIR /app
 
+ENV PYTHONPATH=/app
+
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python-is-python3 \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache build-base python3-dev
 
 # Install poetry and its dependencies
 RUN pip install --upgrade pip && \
     pip install poetry && \
+    pip install --upgrade setuptools && \
     poetry config virtualenvs.create false --local
 
 # Set WORKDIR to the backend project root for dependency installation
