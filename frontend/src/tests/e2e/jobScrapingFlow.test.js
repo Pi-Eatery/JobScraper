@@ -4,7 +4,7 @@
 
 describe('End-to-End Job Scraping and Management Flow', () => {
   // Before all tests, ensure the application is in a clean state and navigate to the dashboard.
-  // This might involve: 
+  // This might involve:
   // - Clearing local storage/cookies.
   // - Seeding the database with test data (e.g., a known scraped job).
   // - Navigating to the base URL of the application.
@@ -61,7 +61,7 @@ describe('End-to-End Job Scraping and Management Flow', () => {
   });
 
   // After all tests, perform any necessary cleanup.
-  // This might involve: 
+  // This might involve:
   // - Deleting test data from the database.
   // - Closing the browser instance.
   afterAll(async () => {

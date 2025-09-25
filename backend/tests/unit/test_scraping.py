@@ -116,7 +116,7 @@ def test_scrape_all_jobs_deduplication():
 
                     os.environ["JOB_KEYWORDS"] = "test"
                     # Pass dummy db and user_id, as create_job is mocked
-                    scrape_all_jobs(db=None, user_id=1) 
+                    scrape_all_jobs(db=None, user_id=1)
                     del os.environ["JOB_KEYWORDS"]
 
                     # Assert that create_job was called for each unique job

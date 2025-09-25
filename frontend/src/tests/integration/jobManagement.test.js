@@ -12,7 +12,14 @@ describe('Job Management Integration Flow', () => {
     jest.clearAllMocks();
     // Mock initial fetchJobs call
     jobService.fetchJobs.mockResolvedValue([
-      { id: 1, title: 'Software Engineer', company: 'Tech Corp', description: 'Develop software', application_link: 'http://techcorp.com/se', status: 'new' },
+      {
+        id: 1,
+        title: 'Software Engineer',
+        company: 'Tech Corp',
+        description: 'Develop software',
+        application_link: 'http://techcorp.com/se',
+        status: 'new',
+      },
     ]);
   });
 
@@ -24,9 +31,14 @@ describe('Job Management Integration Flow', () => {
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
     // Mock the saveJob call
-    jobService.saveJob.mockResolvedValueOnce(
-      { id: 1, title: 'Software Engineer', company: 'Tech Corp', description: 'Develop software', application_link: 'http://techcorp.com/se', status: 'saved' }
-    );
+    jobService.saveJob.mockResolvedValueOnce({
+      id: 1,
+      title: 'Software Engineer',
+      company: 'Tech Corp',
+      description: 'Develop software',
+      application_link: 'http://techcorp.com/se',
+      status: 'saved',
+    });
 
     // Click the Save button
     const saveButton = screen.getByRole('button', { name: /Save/i });
@@ -44,9 +56,14 @@ describe('Job Management Integration Flow', () => {
     expect(await screen.findByText(/Software Engineer/i)).toBeInTheDocument();
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
-    jobService.applyJob.mockResolvedValueOnce(
-      { id: 1, title: 'Software Engineer', company: 'Tech Corp', description: 'Develop software', application_link: 'http://techcorp.com/se', status: 'applied' }
-    );
+    jobService.applyJob.mockResolvedValueOnce({
+      id: 1,
+      title: 'Software Engineer',
+      company: 'Tech Corp',
+      description: 'Develop software',
+      application_link: 'http://techcorp.com/se',
+      status: 'applied',
+    });
 
     const applyButton = screen.getByRole('button', { name: /Apply/i });
     userEvent.click(applyButton);
@@ -62,9 +79,14 @@ describe('Job Management Integration Flow', () => {
     expect(await screen.findByText(/Software Engineer/i)).toBeInTheDocument();
     expect(screen.getByText(/Status: new/i)).toBeInTheDocument();
 
-    jobService.hideJob.mockResolvedValueOnce(
-      { id: 1, title: 'Software Engineer', company: 'Tech Corp', description: 'Develop software', application_link: 'http://techcorp.com/se', status: 'hidden' }
-    );
+    jobService.hideJob.mockResolvedValueOnce({
+      id: 1,
+      title: 'Software Engineer',
+      company: 'Tech Corp',
+      description: 'Develop software',
+      application_link: 'http://techcorp.com/se',
+      status: 'hidden',
+    });
 
     const hideButton = screen.getByRole('button', { name: /Hide/i });
     userEvent.click(hideButton);

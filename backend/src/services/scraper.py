@@ -34,6 +34,3 @@ def scrape_all_jobs(db: Session, user_id: int) -> None:
 
     for job_data in all_jobs_data:
         job_service.create_job(db, job_data, user_id)
-
-
-

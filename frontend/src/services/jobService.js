@@ -1,10 +1,11 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('access_token');
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
   };
 };
 
@@ -18,7 +19,7 @@ export const fetchJobs = async () => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching jobs:", error);
+    console.error('Error fetching jobs:', error);
     throw error;
   }
 };

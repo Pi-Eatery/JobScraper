@@ -1,10 +1,11 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('access_token');
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
   };
 };
 
@@ -18,7 +19,7 @@ export const fetchKeywords = async () => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching keywords:", error);
+    console.error('Error fetching keywords:', error);
     throw error;
   }
 };
@@ -35,7 +36,7 @@ export const addKeyword = async (term) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error adding keyword:", error);
+    console.error('Error adding keyword:', error);
     throw error;
   }
 };
@@ -51,7 +52,7 @@ export const deleteKeyword = async (keywordId) => {
     }
     return true; // Or handle response if backend sends confirmation
   } catch (error) {
-    console.error("Error deleting keyword:", error);
+    console.error('Error deleting keyword:', error);
     throw error;
   }
 };

@@ -12,7 +12,10 @@ from .models.database import Base, engine, SessionLocal  # Import SessionLocal
 from .middleware.metrics import MetricsMiddleware, metrics_endpoint
 from .services.scraper import scrape_all_jobs  # Import scrape_all_jobs
 from .models.user import User  # Import User model
-from .services.auth_service import AuthService, get_password_hash # Import AuthService for user creation
+from .services.auth_service import (
+    AuthService,
+    get_password_hash,
+)  # Import AuthService for user creation
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -27,6 +30,7 @@ app = FastAPI()
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
+
 @app.on_event("startup")
 async def startup_event():
     logger.info("Running startup event: Scraping jobs...")
@@ -37,7 +41,9 @@ async def startup_event():
         if not user:
             logger.info("No user found, creating a placeholder user for scraping.")
             auth_service = AuthService()
-            user = auth_service.register_user(db, "scraper_user", "scraper@example.com", "scraper_password")
+            user = auth_service.register_user(
+                db, "scraper_user", "scraper@example.com", "scraper_password"
+            )
 
         scrape_all_jobs(db, user.id)
         logger.info("Job scraping completed on startup.")
@@ -45,6 +51,7 @@ async def startup_event():
         logger.error(f"Error during job scraping on startup: {e}")
     finally:
         db.close()
+
 
 # Configure CORS
 CORS_ORIGINS = os.getenv(

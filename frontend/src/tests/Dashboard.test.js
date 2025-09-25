@@ -23,7 +23,9 @@ describe('Dashboard', () => {
     const errorMessage = 'Failed to fetch jobs';
     jobService.fetchJobs.mockRejectedValueOnce(new Error(errorMessage));
     render(<Dashboard />);
-    expect(await screen.findByText(`Error: ${errorMessage}`)).toBeInTheDocument();
+    expect(
+      await screen.findByText(`Error: ${errorMessage}`)
+    ).toBeInTheDocument();
   });
 
   test('renders no jobs message if no jobs are returned', async () => {
@@ -34,8 +36,22 @@ describe('Dashboard', () => {
 
   test('renders a list of jobs', async () => {
     const mockJobs = [
-      { id: 1, title: 'Job 1', company: 'Company A', description: 'Desc 1', application_link: 'link1', status: 'new' },
-      { id: 2, title: 'Job 2', company: 'Company B', description: 'Desc 2', application_link: 'link2', status: 'saved' },
+      {
+        id: 1,
+        title: 'Job 1',
+        company: 'Company A',
+        description: 'Desc 1',
+        application_link: 'link1',
+        status: 'new',
+      },
+      {
+        id: 2,
+        title: 'Job 2',
+        company: 'Company B',
+        description: 'Desc 2',
+        application_link: 'link2',
+        status: 'saved',
+      },
     ];
     jobService.fetchJobs.mockResolvedValueOnce(mockJobs);
     render(<Dashboard />);
@@ -48,10 +64,20 @@ describe('Dashboard', () => {
 
   test('calls saveJob when Save button is clicked', async () => {
     const mockJobs = [
-      { id: 1, title: 'Job 1', company: 'Company A', description: 'Desc 1', application_link: 'link1', status: 'new' },
+      {
+        id: 1,
+        title: 'Job 1',
+        company: 'Company A',
+        description: 'Desc 1',
+        application_link: 'link1',
+        status: 'new',
+      },
     ];
     jobService.fetchJobs.mockResolvedValueOnce(mockJobs);
-    jobService.saveJob.mockResolvedValueOnce({ ...mockJobs[0], status: 'saved' });
+    jobService.saveJob.mockResolvedValueOnce({
+      ...mockJobs[0],
+      status: 'saved',
+    });
 
     render(<Dashboard />);
     expect(await screen.findByText(/Job 1/i)).toBeInTheDocument();
@@ -65,10 +91,20 @@ describe('Dashboard', () => {
 
   test('calls applyJob when Apply button is clicked', async () => {
     const mockJobs = [
-      { id: 1, title: 'Job 1', company: 'Company A', description: 'Desc 1', application_link: 'link1', status: 'new' },
+      {
+        id: 1,
+        title: 'Job 1',
+        company: 'Company A',
+        description: 'Desc 1',
+        application_link: 'link1',
+        status: 'new',
+      },
     ];
     jobService.fetchJobs.mockResolvedValueOnce(mockJobs);
-    jobService.applyJob.mockResolvedValueOnce({ ...mockJobs[0], status: 'applied' });
+    jobService.applyJob.mockResolvedValueOnce({
+      ...mockJobs[0],
+      status: 'applied',
+    });
 
     render(<Dashboard />);
     expect(await screen.findByText(/Job 1/i)).toBeInTheDocument();
@@ -82,10 +118,20 @@ describe('Dashboard', () => {
 
   test('calls hideJob when Hide button is clicked', async () => {
     const mockJobs = [
-      { id: 1, title: 'Job 1', company: 'Company A', description: 'Desc 1', application_link: 'link1', status: 'new' },
+      {
+        id: 1,
+        title: 'Job 1',
+        company: 'Company A',
+        description: 'Desc 1',
+        application_link: 'link1',
+        status: 'new',
+      },
     ];
     jobService.fetchJobs.mockResolvedValueOnce(mockJobs);
-    jobService.hideJob.mockResolvedValueOnce({ ...mockJobs[0], status: 'hidden' });
+    jobService.hideJob.mockResolvedValueOnce({
+      ...mockJobs[0],
+      status: 'hidden',
+    });
 
     render(<Dashboard />);
     expect(await screen.findByText(/Job 1/i)).toBeInTheDocument();

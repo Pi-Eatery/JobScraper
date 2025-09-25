@@ -45,6 +45,7 @@ httpx = "^0.28.1"
 mypy = "^1.18.2"
 types-requests = "^2.32.4.20250913"
 types-passlib = "^1.7.7.20250602"
+pip-audit = "^2.9.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { fetchKeywords, addKeyword, deleteKeyword } from '../../services/keywordService';
+import {
+  fetchKeywords,
+  addKeyword,
+  deleteKeyword,
+} from '../../services/keywordService';
 
 const KeywordManager = () => {
   const [keywords, setKeywords] = useState([]);
@@ -75,7 +79,9 @@ const KeywordManager = () => {
           {keywords.map((keyword) => (
             <li key={keyword.id}>
               {keyword.term}
-              <button onClick={() => handleDeleteKeyword(keyword.id)}>Delete</button>
+              <button onClick={() => handleDeleteKeyword(keyword.id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
