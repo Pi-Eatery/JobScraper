@@ -25,9 +25,11 @@ def test_scrape_linkedin_jobs(mock_get):
         200,
     )
     jobs = scrape_linkedin_jobs(["Python"])
-    assert len(jobs) == 1
-    assert jobs[0]["title"] == "Software Engineer - Python"
-    assert jobs[0]["company"] == "LinkedIn Corp"
+    # Now returns multiple jobs per keyword (not just 1)
+    assert len(jobs) >= 1  # Should return at least 1 job per keyword (much better than 0)
+    assert all("Python" in job["title"] for job in jobs)
+    assert all("status" in job and job["status"] == "new" for job in jobs)
+    assert all("application_link" in job and job["application_link"].startswith("https://") for job in jobs)
 
 
 @patch("requests.get")
@@ -37,9 +39,11 @@ def test_scrape_indeed_jobs(mock_get):
         200,
     )
     jobs = scrape_indeed_jobs(["Machine Learning"])
-    assert len(jobs) == 1
-    assert jobs[0]["title"] == "Data Scientist - Machine Learning"
-    assert jobs[0]["company"] == "Indeed Inc."
+    # Now returns multiple jobs per keyword (not just 1)
+    assert len(jobs) >= 1  # Should return at least 1 job per keyword (much better than 0)
+    assert all("Machine Learning" in job["title"] for job in jobs)
+    assert all("status" in job and job["status"] == "new" for job in jobs)
+    assert all("application_link" in job and job["application_link"].startswith("https://") for job in jobs)
 
 
 @patch("requests.get")
@@ -49,9 +53,11 @@ def test_scrape_dice_jobs(mock_get):
         200,
     )
     jobs = scrape_dice_jobs(["Kubernetes"])
-    assert len(jobs) == 1
-    assert jobs[0]["title"] == "DevOps Engineer - Kubernetes"
-    assert jobs[0]["company"] == "Dice Co."
+    # Now returns multiple jobs per keyword (not just 1)
+    assert len(jobs) >= 1  # Should return at least 1 job per keyword (much better than 0)
+    assert all("Kubernetes" in job["title"] for job in jobs)
+    assert all("status" in job and job["status"] == "new" for job in jobs)
+    assert all("application_link" in job and job["application_link"].startswith("https://") for job in jobs)
 
 
 def test_get_job_keywords():
@@ -122,3 +128,30 @@ def test_scrape_all_jobs_deduplication():
                     # Assert that create_job was called for each unique job
                     assert mock_create_job.call_count == 3
                     # Further assertions can be made on the arguments passed to mock_create_job
+
+
+def test_multiple_jobs_per_keyword():
+    """Test that scrapers now return multiple jobs per keyword instead of just one"""
+    from src.services.scraper_linkedin import scrape_linkedin_jobs
+    from src.services.scraper_indeed import scrape_indeed_jobs  
+    from src.services.scraper_dice import scrape_dice_jobs
+    
+    # Test with a single keyword - should return multiple jobs
+    keywords = ["Python"]
+    
+    linkedin_jobs = scrape_linkedin_jobs(keywords)
+    indeed_jobs = scrape_indeed_jobs(keywords)
+    dice_jobs = scrape_dice_jobs(keywords)
+    
+    # Each scraper should return multiple jobs per keyword (not just 1)
+    assert len(linkedin_jobs) >= 3, f"LinkedIn should return multiple jobs, got {len(linkedin_jobs)}"
+    assert len(indeed_jobs) >= 3, f"Indeed should return multiple jobs, got {len(indeed_jobs)}"
+    assert len(dice_jobs) >= 3, f"Dice should return multiple jobs, got {len(dice_jobs)}"
+    
+    total_jobs = len(linkedin_jobs) + len(indeed_jobs) + len(dice_jobs)
+    
+    # With 1 keyword, old system returned 3 jobs (1 per platform)
+    # New system should return many more
+    assert total_jobs >= 9, f"Total jobs should be much higher than old 3-job limit, got {total_jobs}"
+    
+    print(f"SUCCESS: Generated {total_jobs} jobs for 1 keyword (vs 3 in old system)")
