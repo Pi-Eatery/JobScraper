@@ -366,7 +366,9 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
     """Extract job information from JSON-LD structured data."""
     try:
         hiring_org = data.get("hiringOrganization", {})
-        company = hiring_org.get("name", f"Tech Company {random.randint(100, 999)}")  # nosec
+        company = hiring_org.get(
+            "name", f"Tech Company {random.randint(100, 999)}"
+        )  # nosec
 
         job_location = data.get("jobLocation", {})
         location = "Remote"
@@ -376,7 +378,9 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
                 location = f"{address.get('addressLocality', 'Remote')}, {address.get('addressRegion', 'US')}"
 
         salary_info = data.get("baseSalary", {})
-        salary = f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        salary = (
+            f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        )
         if isinstance(salary_info, dict):
             value = salary_info.get("value", {})
             if isinstance(value, dict):
@@ -414,7 +418,9 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
 def _format_salary(salary_text: str) -> str:
     """Format salary text into a consistent format."""
     if not salary_text or not isinstance(salary_text, str):
-        return f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        return (
+            f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        )
 
     # Clean up the salary text
     salary_text = salary_text.strip().replace(",", "")
