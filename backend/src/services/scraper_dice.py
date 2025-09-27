@@ -204,7 +204,7 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
                                     company = (
                                         company_elem.get_text(strip=True)
                                         if company_elem
-                                        else f"Tech Firm {random.randint(100, 999)}"
+                                        else f"Tech Firm {random.randint(100, 999)}"  # nosec
                                     )
                                     location = (
                                         location_elem.get_text(strip=True)
@@ -243,14 +243,14 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
 
                                     jobs.append(
                                         {
-                                            "title": f"{random.choice(job_levels)} {title} - {keyword}",
+                                            "title": f"{random.choice(job_levels)} {title} - {keyword}",  # nosec
                                             "company": company,
                                             "description": f"Seeking an experienced {keyword} professional in {location}. Work with cutting-edge technology and modern infrastructure in a collaborative environment.",
-                                            "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
+                                            "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
                                             "salary": (
                                                 _format_salary(salary)
                                                 if salary
-                                                else f"${random.randint(90, 200)},000 - ${random.randint(130, 250)},000"
+                                                else f"${random.randint(90, 200)},000 - ${random.randint(130, 250)},000"  # nosec
                                             ),
                                             "status": "new",
                                         }
@@ -301,11 +301,11 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
 
                                 jobs.append(
                                     {
-                                        "title": f"{random.choice(engineering_roles)} - {keyword}",
-                                        "company": f"{random.choice(tech_companies)}",
+                                        "title": f"{random.choice(engineering_roles)} - {keyword}",  # nosec
+                                        "company": f"{random.choice(tech_companies)}",  # nosec
                                         "description": f"Exciting {keyword} role in a fast-paced environment. Work with modern tools and technologies while building scalable, reliable systems.",
-                                        "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
-                                        "salary": f"${random.randint(95, 185)},000 - ${random.randint(125, 225)},000",
+                                        "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
+                                        "salary": f"${random.randint(95, 185)},000 - ${random.randint(125, 225)},000",  # nosec
                                         "status": "new",
                                     }
                                 )
@@ -317,10 +317,10 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
                             jobs.append(
                                 {
                                     "title": f"DevOps Engineer - {keyword} (Fallback {i+1})",
-                                    "company": f"Dice Partner {random.randint(1, 100)}",
+                                    "company": f"Dice Partner {random.randint(1, 100)}",  # nosec
                                     "description": f"Excellent {keyword} opportunity with competitive compensation and modern tech stack.",
-                                    "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
-                                    "salary": f"${random.randint(100, 170)},000 - ${random.randint(130, 200)},000",
+                                    "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
+                                    "salary": f"${random.randint(100, 170)},000 - ${random.randint(130, 200)},000",  # nosec
                                     "status": "new",
                                 }
                             )
@@ -332,16 +332,16 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
                         jobs.append(
                             {
                                 "title": f"DevOps Engineer - {keyword} (Offline {i+1})",
-                                "company": f"Engineering Firm {random.randint(1, 500)}",
+                                "company": f"Engineering Firm {random.randint(1, 500)}",  # nosec
                                 "description": f"Great opportunity to work with {keyword} in enterprise environments with cutting-edge tools.",
-                                "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
-                                "salary": f"${random.randint(85, 175)},000 - ${random.randint(115, 205)},000",
+                                "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
+                                "salary": f"${random.randint(85, 175)},000 - ${random.randint(115, 205)},000",  # nosec
                                 "status": "new",
                             }
                         )
 
                 # Rate limiting - be more respectful
-                time.sleep(random.uniform(3, 6))
+                time.sleep(random.uniform(3, 6))  # nosec
 
         except Exception as e:
             print(f"Error scraping Dice for {keyword}: {e}")
@@ -350,10 +350,10 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
                 jobs.append(
                     {
                         "title": f"DevOps Engineer - {keyword} (Error Recovery {i+1})",
-                        "company": f"Dice Backup {random.randint(1, 200)}",
+                        "company": f"Dice Backup {random.randint(1, 200)}",  # nosec
                         "description": f"DevOps role focusing on {keyword} technologies and automation in modern cloud environments.",
-                        "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
-                        "salary": f"${random.randint(95, 165)},000 - ${random.randint(125, 195)},000",
+                        "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
+                        "salary": f"${random.randint(95, 165)},000 - ${random.randint(125, 195)},000",  # nosec
                         "status": "new",
                     }
                 )
@@ -366,7 +366,7 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
     """Extract job information from JSON-LD structured data."""
     try:
         hiring_org = data.get("hiringOrganization", {})
-        company = hiring_org.get("name", f"Tech Company {random.randint(100, 999)}")
+        company = hiring_org.get("name", f"Tech Company {random.randint(100, 999)}")  # nosec
 
         job_location = data.get("jobLocation", {})
         location = "Remote"
@@ -376,7 +376,7 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
                 location = f"{address.get('addressLocality', 'Remote')}, {address.get('addressRegion', 'US')}"
 
         salary_info = data.get("baseSalary", {})
-        salary = f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"
+        salary = f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
         if isinstance(salary_info, dict):
             value = salary_info.get("value", {})
             if isinstance(value, dict):
@@ -394,7 +394,7 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
             + "...",
             "application_link": data.get(
                 "url",
-                f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
+                f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
             ),
             "salary": salary,
             "status": "new",
@@ -403,10 +403,10 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
         # Fallback job if JSON parsing fails
         return {
             "title": f"Engineer - {keyword} (JSON Parsed)",
-            "company": f"Tech Company {random.randint(100, 999)}",
+            "company": f"Tech Company {random.randint(100, 999)}",  # nosec
             "description": f"Excellent {keyword} opportunity with modern technology stack.",
-            "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",
-            "salary": f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000",
+            "application_link": f"https://www.dice.com/jobs/detail/{random.randint(10000000, 99999999)}",  # nosec
+            "salary": f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000",  # nosec
             "status": "new",
         }
 
@@ -414,7 +414,7 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
 def _format_salary(salary_text: str) -> str:
     """Format salary text into a consistent format."""
     if not salary_text or not isinstance(salary_text, str):
-        return f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"
+        return f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
 
     # Clean up the salary text
     salary_text = salary_text.strip().replace(",", "")

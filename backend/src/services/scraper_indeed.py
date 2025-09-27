@@ -87,7 +87,7 @@ def _scrape_via_indeed_api(
                             ),
                             "application_link": job_data.get(
                                 "url",
-                                f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",
+                                f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",  # nosec
                             ),
                             "salary": _extract_salary_from_api(job_data, keyword),
                             "status": "new",
@@ -242,7 +242,7 @@ def _scrape_via_web_scraping(
                                     company = (
                                         company_elem.get_text(strip=True)
                                         if company_elem
-                                        else f"Hiring Company {random.randint(100, 999)}"
+                                        else f"Hiring Company {random.randint(100, 999)}"  # nosec
                                     )
                                     location = (
                                         location_elem.get_text(strip=True)
@@ -254,7 +254,7 @@ def _scrape_via_web_scraping(
                                     salary = (
                                         salary_elem.get_text(strip=True)
                                         if salary_elem
-                                        else f"${random.randint(70, 190)},000 - ${random.randint(110, 230)},000"
+                                        else f"${random.randint(70, 190)},000 - ${random.randint(110, 230)},000"  # nosec
                                     )
 
                                     # Clean up extracted data
@@ -279,14 +279,14 @@ def _scrape_via_web_scraping(
 
                                     jobs.append(
                                         {
-                                            "title": f"{random.choice(job_levels)} {title} - {keyword}",
+                                            "title": f"{random.choice(job_levels)} {title} - {keyword}",  # nosec
                                             "company": company,
                                             "description": f"Join our team in {location} as a {keyword} professional. We offer excellent benefits and opportunities for career advancement.",
-                                            "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",
+                                            "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",  # nosec
                                             "salary": (
                                                 salary
                                                 if "$" in salary
-                                                else f"${random.randint(75, 190)},000 - ${random.randint(110, 230)},000"
+                                                else f"${random.randint(75, 190)},000 - ${random.randint(110, 230)},000"  # nosec
                                             ),
                                             "status": "new",
                                         }
@@ -331,11 +331,11 @@ def _scrape_via_web_scraping(
 
                                 jobs.append(
                                     {
-                                        "title": f"{random.choice(job_roles)} - {keyword}",
-                                        "company": f"{random.choice(companies)}",
+                                        "title": f"{random.choice(job_roles)} - {keyword}",  # nosec
+                                        "company": f"{random.choice(companies)}",  # nosec
                                         "description": f"Exciting opportunity to work with {keyword} data and analytics. Join our growing team and make a real impact with data-driven insights.",
-                                        "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",
-                                        "salary": f"${random.randint(80, 170)},000 - ${random.randint(110, 210)},000",
+                                        "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",  # nosec
+                                        "salary": f"${random.randint(80, 170)},000 - ${random.randint(110, 210)},000",  # nosec
                                         "status": "new",
                                     }
                                 )
@@ -347,10 +347,10 @@ def _scrape_via_web_scraping(
                             jobs.append(
                                 {
                                     "title": f"Data Analyst - {keyword} (Fallback {i+1})",
-                                    "company": f"Indeed Employer {random.randint(1, 100)}",
+                                    "company": f"Indeed Employer {random.randint(1, 100)}",  # nosec
                                     "description": f"Great {keyword} position with excellent growth opportunities and competitive benefits.",
-                                    "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",
-                                    "salary": f"${random.randint(90, 150)},000 - ${random.randint(120, 180)},000",
+                                    "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",  # nosec
+                                    "salary": f"${random.randint(90, 150)},000 - ${random.randint(120, 180)},000",  # nosec
                                     "status": "new",
                                 }
                             )
@@ -362,7 +362,7 @@ def _scrape_via_web_scraping(
                         jobs.append(
                             {
                                 "title": f"Data Scientist - {keyword} (Offline {i+1})",
-                                "company": f"Data Company {random.randint(1, 500)}",
+                                "company": f"Data Company {random.randint(1, 500)}",  # nosec
                                 "description": f"Opportunity to leverage {keyword} skills in data science and analytics.",
                                 "application_link": f"https://www.indeed.com/viewjob?jk={random.randint(1000000000, 9999999999)}",
                                 "salary": f"${random.randint(85, 165)},000 - ${random.randint(115, 195)},000",
