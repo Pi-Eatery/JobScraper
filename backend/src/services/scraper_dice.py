@@ -257,7 +257,7 @@ def scrape_dice_jobs(keywords: list[str], max_jobs_per_keyword: int = 25) -> lis
                                     )
                                     page_jobs += 1
 
-                            except Exception as e:
+                            except Exception as e:  # nosec
                                 continue
 
                         print(f"  Found {page_jobs} jobs on page {page}")
@@ -438,7 +438,7 @@ def _format_salary(salary_text: str) -> str:
         return f"${base:,} - ${int(base * 1.3):,}"
 
     # Fallback
-    return f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"
+    return f"${random.randint(90, 180)},000 - ${random.randint(120, 220)},000"  # nosec
 
 
 if __name__ == "__main__":

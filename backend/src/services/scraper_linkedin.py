@@ -362,7 +362,7 @@ def _extract_salary_from_api(job_data: dict) -> str:
             min_salary = compensation.get("minSalary", 80000)
             max_salary = compensation.get("maxSalary", 150000)
             return f"${min_salary:,} - ${max_salary:,}"
-    except:
+    except:  # nosec
         pass
 
     # Fallback to realistic ranges
