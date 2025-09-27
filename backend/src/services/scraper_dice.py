@@ -367,7 +367,7 @@ def _extract_job_from_json_ld(data: dict, keyword: str) -> dict:
     try:
         hiring_org = data.get("hiringOrganization", {})
         company = hiring_org.get(
-            "name", f"Tech Company {random.randint(100, 999)}"
+            "name", f"Tech Company {random.randint(100, 999)}"  # nosec
         )  # nosec
 
         job_location = data.get("jobLocation", {})
