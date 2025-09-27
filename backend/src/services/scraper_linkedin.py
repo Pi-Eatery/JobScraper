@@ -293,10 +293,10 @@ def _scrape_via_web_scraping(
 
                                 jobs.append(
                                     {
-                                        "title": f"{random.choice(job_titles)} - {keyword}",
-                                        "company": f"{random.choice(companies)}",
+                                        "title": f"{random.choice(job_titles)} - {keyword}",  # nosec
+                                        "company": f"{random.choice(companies)}",  # nosec
                                         "description": f"Join our dynamic team working with {keyword}. We're looking for passionate developers who want to make an impact.",
-                                        "application_link": f"https://www.linkedin.com/jobs/view/{random.randint(3000000000, 3999999999)}",
+                                        "application_link": f"https://www.linkedin.com/jobs/view/{random.randint(3000000000, 3999999999)}",  # nosec
                                         "salary": f"${random.randint(90, 180)},000 - ${random.randint(130, 220)},000",  # nosec
                                         "status": "new",
                                     }
