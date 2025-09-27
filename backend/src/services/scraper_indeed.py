@@ -411,9 +411,13 @@ def _extract_salary_from_api(job_data: dict, keyword: str) -> str:
     # Fallback to realistic ranges based on keyword
     tech_keywords = ["python", "javascript", "react", "aws", "docker", "kubernetes"]
     if any(tech in keyword.lower() for tech in tech_keywords):
-        return f"${random.randint(85, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        return (
+            f"${random.randint(85, 180)},000 - ${random.randint(120, 220)},000"  # nosec
+        )
     else:
-        return f"${random.randint(70, 150)},000 - ${random.randint(100, 190)},000"  # nosec
+        return (
+            f"${random.randint(70, 150)},000 - ${random.randint(100, 190)},000"  # nosec
+        )
 
 
 if __name__ == "__main__":
